@@ -1,12 +1,18 @@
 <?php
 // Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan.
+ini_set('session.save_path', '/tmp');
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_domain', '');
+ini_set('session.cookie_secure', '0');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
 session_start();
 require __DIR__ . '/../service/koneksi.php';
 
-// Daftar Role yang Diizinkan: Hanya super_admin dan admin_user yang bisa menambah user atau admin baru.
+// Pengecekan Otorisasi: Hanya super_admin dan admin_user yang boleh menambah user atau admin.
 $allowed_roles = ['super_admin', 'admin_user'];
 if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
-    header("Location: ../dashboardAdmin.php"); 
+    header("Location: /api/login.php");
     exit();
 }
 

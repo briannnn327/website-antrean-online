@@ -1,11 +1,17 @@
 <?php
 //Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan (hanya admin yang bisa edit).
+ini_set('session.save_path', '/tmp');
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_domain', '');
+ini_set('session.cookie_secure', '0');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
 session_start();
 require __DIR__ . '/../service/koneksi.php';
 // Daftar Role yang Diizinkan: Semua tipe admin boleh mengubah data antrean.
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
 if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
-    header("Location: ../dashboardAdmin.php"); exit();
+    header("Location: /api/dashboardAdmin.php"); exit();
 }
 
 // Pengecekan Metode: Memastikan data dikirim menggunakan method POST dari form edit.
