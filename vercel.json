@@ -1,15 +1,6 @@
 {
   "functions": {
-    "api/**/*.php": {
-      "runtime": "vercel-php@0.7.1"
-    },
-    "login.php": {
-      "runtime": "vercel-php@0.7.1"
-    },
-    "register.php": {
-      "runtime": "vercel-php@0.7.1"
-    },
-    "beranda.php": {
+    "api/pancingan.php": {
       "runtime": "vercel-php@0.7.1"
     }
   },
@@ -24,15 +15,12 @@
     },
     {
       "src": "/login.php",
-      "dest": "/login.php"
+      "dest": "/login.php",
+      "headers": { "Service-Worker-Allowed": "/" }
     },
     {
-      "src": "/register.php",
-      "dest": "/register.php"
-    },
-    {
-      "src": "/beranda.php",
-      "dest": "/beranda.php"
+      "src": "/(.*)\\.php",
+      "dest": "/$1.php"
     },
     {
       "src": "/(.*)",
