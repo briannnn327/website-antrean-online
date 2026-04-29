@@ -1,13 +1,14 @@
 <?php
-session_start();
-require_once __DIR__ . '/service/koneksi.php'; // ✅ FIX PATH SESUAI STRUKTUR
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
 
-if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: login.php");
+$auth = get_auth();
+if (!$auth || $auth['role'] != 'user') {
+    header("Location: /login");
     exit();
 }
 
-$nama_user       = $_SESSION['nama'];
+$nama_user = $auth['nama'];
 $antrean         = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC LIMIT 10");
 $total_antrean   = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian"))['total'];
 $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian WHERE tanggal_kunjungan = CURDATE()"))['total'];
