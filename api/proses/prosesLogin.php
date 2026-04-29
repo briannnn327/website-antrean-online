@@ -27,22 +27,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Pengecekan Role & Redirect: Jika user adalah admin (super_admin, admin_user, admin_antrean), redirect ke dashboard admin. Jika user biasa, redirect ke beranda.
             if ($row['role'] == 'super_admin' || $row['role'] == 'admin_user' || $row['role'] == 'admin_antrean') {
                 // Admin Dashboard: Redirect ke halaman dashboard admin.
-                header("Location: ../dashboardAdmin.php");
+                header("Location: api/dashboardAdmin.php");
             } else {
                 // User Dashboard: Redirect ke halaman beranda user biasa.
-                header("Location: ../beranda.php");
+                header("Location: api/beranda.php");
             }
             exit();
         } else {
             // Error Password: Password yang diinput tidak sesuai dengan yang tersimpan di database.
             $_SESSION['error'] = "Password salah!";
-            header("Location: ../login.php"); 
+            header("Location: api/login.php");
             exit();
         }
     } else {
         // Error Email Not Found: Email yang diinput tidak ditemukan di database.
         $_SESSION['error'] = "Email tidak ditemukan!";
-        header("Location: ../login.php"); 
+        header("Location: api/login.php");
         exit();
     }
 }
