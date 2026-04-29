@@ -1,13 +1,14 @@
 <?php
-// Bagian Awal: Memulai session dan menyambungkan koneksi database.
-session_start();
-require __DIR__ . '/../service/koneksi.php';
+ob_start();
+require_once __DIR__ . '/../service/koneksi.php';
+require_once __DIR__ . '/../service/auth.php';
 
-// Proteksi: Memastikan user sudah login sebelum bisa mengakses file proses ini.
-if (!isset($_SESSION['id'])) { 
-    header("Location: ../login.php"); 
-    exit(); 
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!$koneksi) {
+        setcookie('flash_error', 'Koneksi database terputus!', time()+10, '/', '', true, false);
+        header("Location: /login");
+        exit();
+    }
 
 // Verifikasi Metode: Pastikan data dikirim melalui metode POST dari form.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
