@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/pancingan.php": {
+    "api/**/*.php": {
       "runtime": "vercel-php@0.7.1"
     }
   },
@@ -10,21 +10,16 @@
       "dest": "/api/proses/$1.php"
     },
     {
+      "src": "/api/admin/(.*)\\.php",
+      "dest": "/api/admin/$1.php"
+    },
+    {
       "src": "/api/(.*)\\.php",
       "dest": "/api/$1.php"
     },
     {
-      "src": "/login.php",
-      "dest": "/login.php",
-      "headers": { "Service-Worker-Allowed": "/" }
-    },
-    {
-      "src": "/(.*)\\.php",
-      "dest": "/$1.php"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/api/$1"
     }
   ]
 }
