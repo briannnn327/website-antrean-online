@@ -21,19 +21,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['role'] = $row['role'];
 
             if ($row['role'] == 'super_admin' || $row['role'] == 'admin_user' || $row['role'] == 'admin_antrean') {
-                header("Location: api/dashboardAdmin.php");
+                header("Location: ../dashboardAdmin.php");
             } else {
-                header("Location: api/beranda.php");
+                header("Location: ../beranda.php");
             }
             exit();
         } else {
             $_SESSION['error'] = "Password salah!";
-            header("Location: ../login.php");
+            header("Location: ../../login.php");
             exit();
         }
     } else {
         $_SESSION['error'] = "Email tidak ditemukan!";
-        header("Location: ../login.php");
+        header("Location: ../../login.php");
         exit();
     }
 }

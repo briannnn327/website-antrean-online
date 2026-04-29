@@ -6,24 +6,16 @@
   },
   "routes": [
     {
-      "src": "/api/admin/(.*).php",
-      "dest": "/api/admin/$1.php"
+      "src": "/api/proses/(.*)",
+      "dest": "/api/proses/$1"
     },
     {
-      "src": "/api/proses/(.*).php",
-      "dest": "/api/proses/$1.php"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
-      "src": "/api/service/(.*).php",
-      "dest": "/api/service/$1.php"
-    },
-    {
-      "src": "/api/(.*).php",
-      "dest": "/api/$1.php"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }

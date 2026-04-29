@@ -1,9 +1,11 @@
 <?php
+ini_set('session.save_path', '/tmp');
 session_start();
+
 require __DIR__ . '/service/koneksi.php';
 
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
