@@ -1,9 +1,8 @@
 <?php
-//Bagian Keamanan: Memulai session dan memastikan hanya 'user' yang sudah login yang bisa mengakses halaman ini. Jika belum login, dilempar ke login.php.
-session_start();
-require './service/koneksi.php';
-if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: login.php"); exit();
+require_once __DIR__ . '/../service/auth.php';
+$auth = get_auth();
+if (!$auth || $auth['role'] != 'user') {
+    header("Location: ../user/login.php"); exit();
 }
 
 //Bagian Query: Mengambil semua data dari tabel 'antrian' dan mengurutkannya dari yang terbaru (ID DESC) untuk ditampilkan di tabel riwayat.
@@ -41,7 +40,7 @@ $antrean = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC");
     <div class="main-content">
         <!-- Navbar Atas: Menampilkan nama user yang sedang login menggunakan session dan menyediakan tombol logout. -->
         <div class="navbar">
-            <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($_SESSION['nama']) ?></span></div>
+            <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($auth['nama']) ?></span></div>
             <a href="../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
 

@@ -49,7 +49,7 @@ $admins = mysqli_query($koneksi, "SELECT * FROM user WHERE role IN ('super_admin
             <!-- Navbar Admin: Menampilkan nama admin dan role "Super Admin" yang sedang login. -->
             <div class="nav-user">
                 <i class="fas fa-user-shield"></i> 
-                Admin: <span><?= htmlspecialchars($_SESSION['nama']) ?> (Super Admin)</span>
+                Admin: <span><?= htmlspecialchars($auth['nama']) ?> (Super Admin)</span>
             </div>
             <a href="../../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>

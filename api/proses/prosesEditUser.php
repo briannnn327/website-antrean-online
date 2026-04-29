@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Update Session: Jika user sedang update datanya sendiri, update session agar data yang ditampilkan terbaru.
         if ($id == $_SESSION['id']) {
-            $_SESSION['nama'] = $nama;
+            $auth['nama'] = $nama;
             $_SESSION['role'] = $role;
         }   
     } else {

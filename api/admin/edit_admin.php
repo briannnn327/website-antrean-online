@@ -48,7 +48,7 @@ if (!$data) {
     </div>
     <div class="main-content">
         <div class="navbar">
-            <div class="nav-user"><i class="fas fa-user-shield"></i> Admin: <span><?= htmlspecialchars($_SESSION['nama']) ?></span></div>
+            <div class="nav-user"><i class="fas fa-user-shield"></i> Admin: <span><?= htmlspecialchars($auth['nama']) ?></span></div>
             <a href="../../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
         <div class="content">

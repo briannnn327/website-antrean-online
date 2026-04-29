@@ -1,9 +1,8 @@
 <?php
-//Bagian Awal: Memulai session dan melakukan pengecekan keamanan.
-session_start();
-// Proteksi Halaman: Memastikan hanya user biasa yang sudah login yang bisa akses form pendaftaran.
-if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: login.php"); exit();
+require_once __DIR__ . '/../service/auth.php';
+$auth = get_auth();
+if (!$auth || $auth['role'] != 'user') {
+    header("Location: ../user/login.php"); exit();
 }
 // Poli Pre-selected: Mengambil parameter 'poli' dari URL jika user datang dari halaman layanan (untuk pre-select dropdown).
 $poli_selected = $_GET['poli'] ?? '';
@@ -44,7 +43,7 @@ $show_modal = isset($_GET['status']) && $_GET['status'] == 'sukses';
          <!-- Navbar: Baris atas dengan greeting user dan tombol logout. -->
         <div class="navbar">
             <!-- User Greeting: Menampilkan nama user yang login. -->
-            <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($_SESSION['nama']) ?></span></div>
+            <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($auth['nama']) ?></span></div>
             <!-- Logout Button: Tombol untuk logout. -->
             <a href="../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>

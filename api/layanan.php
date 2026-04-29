@@ -1,9 +1,8 @@
 <?php
-//Bagian Awal: Memulai session dan melakukan pengecekan keamanan.
-session_start();
-//Proteksi Halaman: Memastikan hanya user biasa (role='user') yang sudah login yang bisa akses halaman layanan ini.
-if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: login.php"); exit();
+require_once __DIR__ . '/../service/auth.php';
+$auth = get_auth();
+if (!$auth || $auth['role'] != 'user') {
+    header("Location: ../user/login.php"); exit();
 }
 ?>
 <!DOCTYPE html>
@@ -46,7 +45,7 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
     </div>
     <div class="main-content">
         <div class="navbar">
-            <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($_SESSION['nama']) ?></span></div>
+            <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($auth['nama']) ?></span></div>
             <a href="../index.php" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
         <div class="layanan-wrap">

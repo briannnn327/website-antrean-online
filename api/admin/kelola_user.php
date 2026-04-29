@@ -46,7 +46,7 @@ $users = mysqli_query($koneksi, "SELECT * FROM user WHERE role='user' ORDER BY i
     <div class="main-content">
         <!-- Navbar Header: Menampilkan informasi admin yang sedang login dan tombol logout. -->
         <div class="navbar">
-            <div class="nav-user"><i class="fas fa-user-shield"></i> Admin: <span><?= htmlspecialchars($_SESSION['nama']) ?></span></div>
+            <div class="nav-user"><i class="fas fa-user-shield"></i> Admin: <span><?= htmlspecialchars($auth['nama']) ?></span></div>
             <a href="../../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
         <div class="content">

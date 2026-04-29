@@ -56,7 +56,7 @@ $antrean = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC");
         <div class="navbar">
             <div class="nav-user">
                 <i class="fas fa-user-shield"></i> 
-                Admin: <span><?= htmlspecialchars($_SESSION['nama']) ?> (<?= ucfirst(str_replace('_', ' ', $_SESSION['role'])) ?>)</span>
+                Admin: <span><?= htmlspecialchars($auth['nama']) ?> (<?= ucfirst(str_replace('_', ' ', $_SESSION['role'])) ?>)</span>
             </div>
             <a href="../../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
