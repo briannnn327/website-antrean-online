@@ -1,35 +1,31 @@
 <?php
-//Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan (hanya admin yang bisa edit).
-session_start();
+ob_start();
 require __DIR__ . '/../service/koneksi.php';
-// Daftar Role yang Diizinkan: Semua tipe admin boleh mengubah data antrean.
+require __DIR__ . '/../service/auth.php';
+
+$auth = get_auth();
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
-if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
-    header("Location: ../dashboardAdmin.php"); exit();
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
+    header("Location: /login"); exit();
 }
 
-// Pengecekan Metode: Memastikan data dikirim menggunakan method POST dari form edit.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Pengambilan Input: Mengambil semua data dari form edit antrean dan membersihkannya.
-    $id      = intval($_POST['id']);                                        // ID antrean yang akan diupdate
-    $nama    = htmlspecialchars($_POST['nama_pasien']);                   // Nama pasien yang diubah
-    $nik     = htmlspecialchars($_POST['nik']);                           // NIK pasien yang diubah
-    $poli    = htmlspecialchars($_POST['poli']);                          // Poli yang dipilih
-    $tanggal = $_POST['tanggal'];                                          // Tanggal kunjungan yang diubah
-    $nomor   = htmlspecialchars($_POST['nomor_antrean']);                 // Nomor antrean yang diubah
+    $id      = intval($_POST['id']);
+    $nama    = htmlspecialchars($_POST['nama_pasien']);
+    $nik     = htmlspecialchars($_POST['nik']);
+    $poli    = htmlspecialchars($_POST['poli']);
+    $tanggal = $_POST['tanggal'];
+    $nomor   = htmlspecialchars($_POST['nomor_antrean']);
 
-    // Query Update: Menyiapkan perintah SQL UPDATE untuk mengubah data antrean di tabel 'antrian'.
     $sql = "UPDATE antrian SET nama_pasien='$nama', nik='$nik', poli='$poli',
             tanggal_kunjungan='$tanggal', nomor_antrean='$nomor' WHERE id='$id'";
 
-    // Eksekusi Query: Menjalankan query update. Jika berhasil, set pesan success, jika gagal set error.
     if (mysqli_query($koneksi, $sql)) {
-        $_SESSION['success'] = "Data antrean berhasil diupdate!";
+        setcookie('flash_success', 'Data antrean berhasil diupdate!', time()+10, '/', '', true, false);
     } else {
-        $_SESSION['error'] = "Gagal mengupdate data.";
+        setcookie('flash_error', 'Gagal mengupdate data.', time()+10, '/', '', true, false);
     }
-    // Redirect: Kembali ke halaman kelola_antrean.php setelah proses selesai.
     header("Location: ../admin/kelola_antrean.php");
     exit();
 }
-?>
+ob_end_flush();

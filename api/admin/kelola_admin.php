@@ -90,7 +90,7 @@ $admins = mysqli_query($koneksi, "SELECT * FROM user WHERE role IN ('super_admin
                                 </td>
                                 <!-- Action Buttons: Tombol Edit dan Hapus untuk setiap admin. Jika ID sama dengan session (akun sendiri), tampilkan teks "Akun Anda". -->
                                 <td>
-                                    <?php if($row['id'] != $_SESSION['id']) : ?>
+                                    <?php if($row['id'] != $auth['id']) : ?>
                                     <!-- Edit Button: Link ke halaman edit_admin.php untuk mengubah data admin. -->
                                     <a href="edit_admin.php?id=<?= $row['id'] ?>" class="btn-edit"><i class="fas fa-edit"></i> Edit</a>
                                     <!-- Hapus Button: Link ke proses hapus dengan konfirmasi dialog untuk menghapus admin. -->
