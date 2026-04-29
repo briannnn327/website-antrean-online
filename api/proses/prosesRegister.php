@@ -1,7 +1,7 @@
 <?php
-// Bagian Awal: Memulai session dan memanggil file koneksi database.
-session_start();
-require __DIR__ . '/../service/koneksi.php';
+ob_start();
+require_once __DIR__ . '/../service/koneksi.php';
+require_once __DIR__ . '/../service/auth.php';
 
 // Pengecekan Metode: Memastikan form dikirim dengan metode POST (bukan GET atau yang lain).
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cek = mysqli_query($koneksi, "SELECT * FROM user WHERE email='$email'");
     if (mysqli_num_rows($cek) > 0) {
         $_SESSION['error'] = "Email sudah digunakan!";
-        header("Location: ../register.php"); exit();     // Redirect kembali ke form register dengan pesan error
+        header("Location: /register.php"); exit();     // Redirect kembali ke form register dengan pesan error
     }
 
     // Hashing Password: Mengenkripsi password menggunakan password_hash() dengan algoritma default (bcrypt) untuk keamanan.
@@ -25,11 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Eksekusi Query: Menjalankan query insert. Jika berhasil, set pesan success dan redirect ke login. Jika gagal, set error dan kembali ke form.
     if (mysqli_query($koneksi, $sql)) {
         $_SESSION['success'] = "Registrasi berhasil! Silakan login.";
-        header("Location: ../login.php");                // Redirect ke halaman login setelah registrasi sukses
+        header("Location: /login.php");                // Redirect ke halaman login setelah registrasi sukses
     } else {
         $_SESSION['error'] = "Terjadi kesalahan sistem.";  // Pesan error jika database error
-        header("Location: ../register.php");             // Redirect kembali ke form register
+        header("Location: /register.php");             // Redirect kembali ke form register
     }
     exit();
 }
-?>
