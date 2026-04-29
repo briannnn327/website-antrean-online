@@ -1,22 +1,17 @@
 <?php
-//Bagian Awal: Memulai session dan memanggil file koneksi database.
-session_start();
-require './service/koneksi.php';
-
-// Pengecekan Otorisasi: Hanya admin yang bisa akses dashboard ini. Jika user biasa, redirect ke login.
-$allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];  // Daftar role yang diizinkan
-if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
-    header("Location: login.php"); 
-    exit();
-}
-
-<?php
 require_once __DIR__ . '/service/auth.php';
 require_once __DIR__ . '/service/koneksi.php';
 
 $auth = get_auth();
 if (!$auth || $auth['role'] != 'user') {
     header("Location: /login");
+    exit();
+}
+
+// Pengecekan Otorisasi: Hanya admin yang bisa akses dashboard ini. Jika user biasa, redirect ke login.
+$allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];  // Daftar role yang diizinkan
+if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
+    header("Location: login.php"); 
     exit();
 }
 
