@@ -1,0 +1,206 @@
+/* Landing Page Style */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #333;
+}
+
+/* NAV */
+nav {
+    background: white;
+    padding: 16px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-brand { font-size: 22px; font-weight: 700; color: #1a73e8; }
+.nav-brand i { margin-right: 8px; }
+
+.nav-links { display: flex; gap: 12px; align-items: center; }
+.nav-links a {
+    text-decoration: none;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: 0.3s;
+}
+.nav-links .btn-login { color: #1a73e8; border: 2px solid #1a73e8; }
+.nav-links .btn-login:hover { background: #1a73e8; color: white; }
+.nav-links .btn-daftar { background: #1a73e8; color: white; }
+.nav-links .btn-daftar:hover { background: #155fbe; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(26,115,232,0.35); }
+
+/* HERO */
+.hero {
+    background: linear-gradient(135deg, #1a73e8 0%, #00bcd4 100%);
+    color: white;
+    padding: 100px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 0; right: 0;
+    height: 80px;
+    background: #f0f4f8;
+    border-radius: 50% 50% 0 0 / 60px 60px 0 0;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.hero h1 { font-size: 52px; font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+.hero h1 span { color: #b3e5fc; }
+.hero p { font-size: 18px; opacity: 0.9; max-width: 600px; margin: 0 auto 36px; line-height: 1.7; }
+
+.hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+.hero-btns a {
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-hero-primary {
+    background: white;
+    color: #1a73e8;
+}
+.btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+
+.btn-hero-secondary {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.5);
+}
+.btn-hero-secondary:hover { background: rgba(255,255,255,0.25); }
+
+/* SECTION */
+section { padding: 72px 60px; }
+
+.section-title { text-align: center; margin-bottom: 50px; }
+.section-title h2 { font-size: 34px; font-weight: 800; color: #2c3e50; margin-bottom: 12px; }
+.section-title p { color: #777; font-size: 16px; max-width: 550px; margin: 0 auto; }
+
+/* LAYANAN */
+/* Tampilan default untuk layar besar (Laptop/Desktop) */
+.layanan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+/* Tampilan untuk layar HP (di bawah 768px) */
+@media (max-width: 768px) {
+    .layanan-grid {
+        grid-template-columns: repeat(1, 1fr); /* Jadi 1 kolom memanjang ke bawah */
+    }
+}
+
+.layanan-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    transition: 0.3s;
+    border-top: 4px solid transparent;
+}
+
+.layanan-card:hover { transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,0,0,0.12); }
+
+.layanan-card.blue   { border-top-color: #1a73e8; }
+.layanan-card.green  { border-top-color: #0f9d58; }
+.layanan-card.purple { border-top-color: #7b1fa2; }
+.layanan-card.gray   { border-top-color: #607d8b; }
+.layanan-card.red    { border-top-color: #e53935; }
+.layanan-card.teal   { border-top-color: #00796b; }
+
+.layanan-icon {
+    width: 64px; height: 64px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin-bottom: 16px;
+}
+
+.layanan-card.blue .layanan-icon   { background: #e3f2fd; color: #1a73e8; }
+.layanan-card.green .layanan-icon  { background: #e8f5e9; color: #0f9d58; }
+.layanan-card.purple .layanan-icon { background: #f3e5f5; color: #7b1fa2; }
+.layanan-card.gray .layanan-icon   { background: #eceff1; color: #607d8b; }
+.layanan-card.red .layanan-icon    { background: #fdecea; color: #e53935; }
+.layanan-card.teal .layanan-icon   { background: #e0f2f1; color: #00796b; }
+
+.layanan-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: #2c3e50; }
+.layanan-card p { font-size: 13px; color: #888; margin-bottom: 20px; line-height: 1.6; }
+
+.layanan-card a {
+    display: inline-block;
+    padding: 9px 22px;
+    background: #1a73e8;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.layanan-card a:hover { background: #155fbe; }
+
+/* CARA DAFTAR */
+.how-bg { background: white; }
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+.step-card { text-align: center; padding: 30px 20px; }
+.step-num {
+    width: 56px; height: 56px;
+    background: #1a73e8;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 auto 16px;
+}
+.step-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #2c3e50; }
+.step-card p { font-size: 13px; color: #888; line-height: 1.6; }
+
+/* STATS */
+.stats-section { background: linear-gradient(135deg, #1a73e8, #00bcd4); color: white; text-align: center; }
+.stats-row { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
+.stat-item h2 { font-size: 44px; font-weight: 900; }
+.stat-item p { font-size: 14px; opacity: 0.85; margin-top: 4px; }
+
+/* FOOTER */
+footer {
+    background: #1e2a3a;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 24px;
+    font-size: 13px;
+}
+footer span { color: white; font-weight: 700; }
