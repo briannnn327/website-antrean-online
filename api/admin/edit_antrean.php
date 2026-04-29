@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/service/auth.php';
-require_once __DIR__ . '/service/koneksi.php';
+require_once __DIR__ . '/../service/auth.php';
+require_once __DIR__ . '/../service/koneksi.php';
 
 $auth = get_auth();
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
