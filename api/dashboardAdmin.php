@@ -10,6 +10,16 @@ if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
     exit();
 }
 
+<?php
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
+
+$auth = get_auth();
+if (!$auth || $auth['role'] != 'user') {
+    header("Location: /login");
+    exit();
+}
+
 // Query Statistics: Mengambil berbagai data statistik untuk ditampilkan di dashboard.
 $total_user    = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as t FROM user WHERE role='user'"))['t'];  // Total user biasa
 $total_admin   = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as t FROM user WHERE role IN ('super_admin', 'admin_user', 'admin_antrean')"))['t'];  // Total admin
