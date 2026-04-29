@@ -1,4 +1,6 @@
 <?php 
+// Pastikan path session tetap sama saat menggunakan PHP di Vercel.
+ini_set('session.save_path', '/tmp');
 //  Bagian Session: Memulai session untuk menangkap data sementara, seperti pesan error jika pendaftaran gagal.
 session_start(); 
 ?>

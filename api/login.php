@@ -1,4 +1,6 @@
 <?php
+// Pastikan path session tetap sama saat menggunakan PHP di Vercel.
+ini_set('session.save_path', '/tmp');
 // Bagian Session: Memulai session untuk menyimpan data login pengguna seperti id, nama, dan role.
 session_start();
 ?>
