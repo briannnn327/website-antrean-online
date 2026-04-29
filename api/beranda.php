@@ -1,6 +1,6 @@
 <?php
 session_start();
-require './api/service/koneksi.php'; // ✅ FIX PATH SESUAI STRUKTUR
+require_once __DIR__ . '/service/koneksi.php'; // ✅ FIX PATH SESUAI STRUKTUR
 
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
     header("Location: login.php");
