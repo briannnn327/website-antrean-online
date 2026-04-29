@@ -1,9 +1,15 @@
 <?php
 //Bagian Awal: Memulai session dan melakukan pengecekan keamanan.
+ini_set('session.save_path', '/tmp');
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_domain', '');
+ini_set('session.cookie_secure', '0');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
 session_start();
 // Proteksi Halaman: Memastikan hanya user biasa yang sudah login yang bisa akses form pendaftaran.
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: login.php"); exit();
+    header("Location: /api/login.php"); exit();
 }
 // Poli Pre-selected: Mengambil parameter 'poli' dari URL jika user datang dari halaman layanan (untuk pre-select dropdown).
 $poli_selected = $_GET['poli'] ?? '';

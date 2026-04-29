@@ -1,11 +1,16 @@
 <?php
 ini_set('session.save_path', '/tmp');
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_domain', '');
+ini_set('session.cookie_secure', '0');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
 session_start();
 
 require __DIR__ . '/service/koneksi.php';
 
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: ../login.php");
+    header("Location: /api/login.php");
     exit();
 }
 

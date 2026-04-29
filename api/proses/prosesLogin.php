@@ -1,5 +1,10 @@
 <?php
 ini_set('session.save_path', '/tmp');
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_domain', '');
+ini_set('session.cookie_secure', '0');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
 session_start();
 require __DIR__ . '/../service/koneksi.php';
 
@@ -22,19 +27,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['role'] = $row['role'];
 
             if ($row['role'] == 'super_admin' || $row['role'] == 'admin_user' || $row['role'] == 'admin_antrean') {
-                header("Location: ../dashboardAdmin.php");
+                // Redirect ke dashboard admin
+                header("Location: /api/dashboardAdmin.php");
             } else {
-                header("Location: ../beranda.php");
+                // Redirect ke dashboard user biasa
+                header("Location: /api/beranda.php");
             }
             exit();
         } else {
             $_SESSION['error'] = "Password salah!";
-            header("Location: ../../login.php");
+            // Redirect kembali ke login page
+            header("Location: /api/login.php");
             exit();
         }
     } else {
         $_SESSION['error'] = "Email tidak ditemukan!";
-        header("Location: ../../login.php");
+        // Redirect kembali ke login page
+        header("Location: /api/login.php");
         exit();
     }
 }

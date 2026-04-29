@@ -1,11 +1,17 @@
 <?php
 //Bagian Awal: Memulai session dan memanggil koneksi database.
+ini_set('session.save_path', '/tmp');
+ini_set('session.cookie_path', '/');
+ini_set('session.cookie_domain', '');
+ini_set('session.cookie_secure', '0');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
 session_start();
 require '../service/koneksi.php';
 
 // Proteksi Keamanan: Hanya super_admin yang boleh akses halaman ini (mencegah akses dari admin lainnya).
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 'super_admin') {
-    header("Location: ../dashboardAdmin.php"); 
+    header("Location: /api/login.php"); 
     exit();
 }
 
