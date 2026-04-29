@@ -1,15 +1,15 @@
 <?php
 session_start();
-require 'service/koneksi.php';
+require __DIR__ . '/service/koneksi.php';
 
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
     header("Location: login.php");
     exit();
 }
 
-$nama_user       = $_SESSION['nama'];
-$antrean         = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC LIMIT 10");
-$total_antrean   = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian"))['total'];
+$nama_user        = $_SESSION['nama'];
+$antrean          = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC LIMIT 10");
+$total_antrean    = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian"))['total'];
 $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian WHERE tanggal_kunjungan = CURDATE()"))['total'];
 ?>
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
     <title>BrianHealty - Dashboard User</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="assets/css/app.css">
     <style>
         .text-right { text-align: right; padding-right: 15px !important; }
         .font-bold { font-weight: 600; }
@@ -41,7 +41,7 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
     </ul>
     <div class="sidebar-section">Akun</div>
     <ul class="sidebar-menu">
-        <li><a href="../index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
 </div>
 
@@ -51,8 +51,9 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
             <i class="fas fa-user-circle"></i> Halo, 
             <span><?= htmlspecialchars($nama_user) ?></span>
         </div>
-        <a href="../index.html" class="btn-logout">
-            <i class="fas fa-sign-out-alt"></i> Logout </a>
+        <a href="logout.php" class="btn-logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
     </div>
 
     <div class="content">
@@ -142,7 +143,6 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
 async function fetchBPS() {
     const body = document.getElementById('data-api-body');
     try {
-        // Memanggil file yang ada di folder yang sama (api/)
         const response = await fetch('./api_kesehatan.php?v=' + Date.now());
         const res = await response.json();
         const wilayah = res.vervar;
