@@ -1,15 +1,9 @@
 <?php
 //Bagian Keamanan: Memulai session dan memastikan hanya 'user' yang sudah login yang bisa mengakses halaman ini. Jika belum login, dilempar ke login.php.
-ini_set('session.save_path', '/tmp');
-ini_set('session.cookie_path', '/');
-ini_set('session.cookie_domain', '');
-ini_set('session.cookie_secure', '0');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'Lax');
 session_start();
 require './service/koneksi.php';
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: /api/login.php"); exit();
+    header("Location: login.php"); exit();
 }
 
 //Bagian Query: Mengambil semua data dari tabel 'antrian' dan mengurutkannya dari yang terbaru (ID DESC) untuk ditampilkan di tabel riwayat.

@@ -1,17 +1,11 @@
 <?php
 // Bagian Awal: Memulai session dan menyambungkan koneksi database.
-ini_set('session.save_path', '/tmp');
-ini_set('session.cookie_path', '/');
-ini_set('session.cookie_domain', '');
-ini_set('session.cookie_secure', '0');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'Lax');
 session_start();
 require __DIR__ . '/../service/koneksi.php';
 
 // Proteksi: Memastikan user sudah login sebelum bisa mengakses file proses ini.
 if (!isset($_SESSION['id'])) { 
-    header("Location: /api/login.php"); 
+    header("Location: ../login.php"); 
     exit(); 
 }
 

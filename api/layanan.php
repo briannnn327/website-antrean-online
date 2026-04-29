@@ -1,15 +1,9 @@
 <?php
 //Bagian Awal: Memulai session dan melakukan pengecekan keamanan.
-ini_set('session.save_path', '/tmp');
-ini_set('session.cookie_path', '/');
-ini_set('session.cookie_domain', '');
-ini_set('session.cookie_secure', '0');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'Lax');
 session_start();
 //Proteksi Halaman: Memastikan hanya user biasa (role='user') yang sudah login yang bisa akses halaman layanan ini.
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: /api/login.php"); exit();
+    header("Location: login.php"); exit();
 }
 ?>
 <!DOCTYPE html>
@@ -47,13 +41,13 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
         <div class="sidebar-section">Akun</div>
         <!-- Logout: Link untuk logout yang mengarah ke halaman utama. -->
         <ul class="sidebar-menu">
-            <li><a href="../index.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="../index.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </div>
     <div class="main-content">
         <div class="navbar">
             <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($_SESSION['nama']) ?></span></div>
-            <a href="../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="../index.php" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
         <div class="layanan-wrap">
             <div class="page-header">

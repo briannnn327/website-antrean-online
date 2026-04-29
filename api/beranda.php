@@ -1,22 +1,15 @@
 <?php
-ini_set('session.save_path', '/tmp');
-ini_set('session.cookie_path', '/');
-ini_set('session.cookie_domain', '');
-ini_set('session.cookie_secure', '0');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'Lax');
 session_start();
-
-require __DIR__ . '/service/koneksi.php';
+require './api/service/koneksi.php'; // ✅ FIX PATH SESUAI STRUKTUR
 
 if (!isset($_SESSION['id']) || $_SESSION['role'] != 'user') {
-    header("Location: /api/login.php");
+    header("Location: login.php");
     exit();
 }
 
-$nama_user        = $_SESSION['nama'];
-$antrean          = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC LIMIT 10");
-$total_antrean    = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian"))['total'];
+$nama_user       = $_SESSION['nama'];
+$antrean         = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC LIMIT 10");
+$total_antrean   = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian"))['total'];
 $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian WHERE tanggal_kunjungan = CURDATE()"))['total'];
 ?>
 <!DOCTYPE html>
@@ -143,39 +136,75 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
                 </table>
             </div>
         </div>
+
     </div>
 </div>
 
 <script>
 async function fetchBPS() {
     const body = document.getElementById('data-api-body');
+
+    body.innerHTML = '<tr><td colspan="5" style="text-align:center;">Memproses data dari BPS...</td></tr>';
+
     try {
-        const response = await fetch('./api_kesehatan.php?v=' + Date.now());
+        const response = await fetch('api/api_kesehatan.php?v=' + Date.now());
+
+        if (!response.ok) {
+            throw new Error("API tidak merespon. Status: " + response.status);
+        }
+
         const res = await response.json();
+
         const wilayah = res.vervar;
         const dataVal = res.datacontent;
+        const allKeys = Object.keys(dataVal);
+
         let baris = '';
 
         wilayah.forEach(w => {
-            const idWil = w.val;
-            let rs = 0, pusk = 0, posy = 0, polin = 0;
+            const idWil = String(w.val);
 
-            Object.keys(dataVal).forEach(key => {
-                if (key.includes("206") && key.includes(idWil)) {
-                    if (key.includes("178")) rs = dataVal[key];
-                    if (key.includes("179")) pusk = dataVal[key];
-                    if (key.includes("180")) posy = dataVal[key];
-                    if (key.includes("181")) polin = dataVal[key];
-                }
-            });
-            const format = (v) => Number(v || 0).toLocaleString('id-ID');
-            baris += `<tr><td class="font-bold">${w.label}</td><td class="text-right">${format(rs)}</td><td class="text-right">${format(pusk)}</td><td class="text-right">${format(posy)}</td><td class="text-right">${format(polin)}</td></tr>`;
+            // 🔥 ambil key berdasarkan awal kode wilayah
+            const findKey = (kodeTur) => {
+                return allKeys.find(k =>
+                    k.startsWith(idWil) &&   // wilayah cocok
+                    k.includes("206") &&     // variabel
+                    k.includes(kodeTur)      // turunan
+                );
+            };
+
+            const keyRS    = findKey("178");
+            const keyPusk  = findKey("179");
+            const keyPosy  = findKey("180");
+            const keyPolin = findKey("181");
+
+            const getVal = (key) => {
+                const v = dataVal[key];
+                if (!v || v === "-") return "0";
+                return Number(v).toLocaleString('id-ID');
+            };
+
+            baris += `
+                <tr>
+                    <td class="font-bold">${w.label}</td>
+                    <td class="text-right">${getVal(keyRS)}</td>
+                    <td class="text-right">${getVal(keyPusk)}</td>
+                    <td class="text-right">${getVal(keyPosy)}</td>
+                    <td class="text-right">${getVal(keyPolin)}</td>
+                </tr>
+            `;
         });
+
         body.innerHTML = baris;
+
     } catch (err) {
-        body.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">${err.message}</td></tr>`;
+        console.error(err);
+        body.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">
+            <strong>Error:</strong><br>${err.message}
+        </td></tr>`;
     }
 }
+
 document.addEventListener('DOMContentLoaded', fetchBPS);
 </script>
 

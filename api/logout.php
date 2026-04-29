@@ -7,9 +7,4 @@ header("Location: index.html");  // Redirect kembali ke halaman utama setelah lo
 exit();
 ?>
 
-<?php
-session_start();
-session_unset();
-session_destroy();
-header("Location: ../index.html");
-exit();
+

@@ -1,17 +1,11 @@
 <?php
 //Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan.
-ini_set('session.save_path', '/tmp');
-ini_set('session.cookie_path', '/');
-ini_set('session.cookie_domain', '');
-ini_set('session.cookie_secure', '0');
-ini_set('session.cookie_httponly', '1');
-ini_set('session.cookie_samesite', 'Lax');
 session_start();
 require '../service/koneksi.php';
 
 // Pengecekan Otorisasi: Hanya super_admin dan admin_user yang bisa mengakses halaman ini. Jika role berbeda, redirect.
 if (!isset($_SESSION['id']) || ($_SESSION['role'] != 'super_admin' && $_SESSION['role'] !== 'admin_user')) {
-    header("Location: /api/login.php"); exit();
+    header("Location: ../dashboardAdmin.php"); exit();
 }
 
 // Query Users: Mengambil semua user dengan role 'user' (bukan admin) dan mengurutkannya dari ID terbaru.
