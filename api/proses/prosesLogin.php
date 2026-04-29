@@ -21,9 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['role'] = $row['role'];
 
             if ($row['role'] == 'super_admin' || $row['role'] == 'admin_user' || $row['role'] == 'admin_antrean') {
-                header("Location: ./dashboardAdmin.php");
+                header("Location: api/dashboardAdmin.php");
             } else {
-                header("Location: ./beranda.php");
+                header("Location: api/beranda.php");
             }
             exit();
         } else {
