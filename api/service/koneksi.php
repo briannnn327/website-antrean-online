@@ -3,7 +3,7 @@
 $host = 'gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com';
 $port = 4000;
 $user = '2EprtvkX6uKYQg3.root';
-$pass = 'i39wtc5iGyqBTPoJ';
+$pass = 'ZywrT1MHuJkMG3ms';
 $db   = 'brian_healty';
 
 // Inisialisasi mysqli
