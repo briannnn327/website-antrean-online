@@ -4,7 +4,7 @@ session_start();
 require __DIR__ . '/../service/koneksi.php';
 // Daftar Role yang Diizinkan: Semua tipe admin boleh mengubah data antrean.
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
-if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
+if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
     header("Location: ../dashboardAdmin.php"); exit();
 }
 

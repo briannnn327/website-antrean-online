@@ -5,7 +5,7 @@ require __DIR__ . '/../service/koneksi.php';
 
 // Daftar Role yang Diizinkan: Hanya super_admin dan admin_user yang bisa menambah user atau admin baru.
 $allowed_roles = ['super_admin', 'admin_user'];
-if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
+if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
     header("Location: ../dashboardAdmin.php"); 
     exit();
 }

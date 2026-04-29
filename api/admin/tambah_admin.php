@@ -2,7 +2,7 @@
 // Bagian Awal: Memulai session dan melakukan pengecekan keamanan.
 session_start();
 // Proteksi Keamanan: Hanya super_admin yang boleh menambah admin baru (untuk mencegah abuse).
-if (!isset($_SESSION['id']) || $_SESSION['role'] != 'super_admin') {
+if (!isset($_SESSION['id']) || $auth['role'] != 'super_admin') {
     header("Location: ../dashboardAdmin.php"); 
     exit();
 }

@@ -4,7 +4,7 @@ session_start();
 require '../service/koneksi.php';
 
 // Pengecekan Otorisasi: Hanya super_admin dan admin_user yang bisa mengakses halaman ini. Jika role berbeda, redirect.
-if (!isset($_SESSION['id']) || ($_SESSION['role'] != 'super_admin' && $_SESSION['role'] !== 'admin_user')) {
+if (!isset($_SESSION['id']) || ($auth['role'] != 'super_admin' && $auth['role'] !== 'admin_user')) {
     header("Location: ../dashboardAdmin.php"); exit();
 }
 
@@ -30,10 +30,10 @@ $users = mysqli_query($koneksi, "SELECT * FROM user WHERE role='user' ORDER BY i
         </ul>
         <div class="sidebar-section">Kelola</div>
         <ul class="sidebar-menu">
-            <?php if ($_SESSION['role'] == 'super_admin' || $_SESSION['role'] == 'admin_user') : ?>
+            <?php if ($auth['role'] == 'super_admin' || $auth['role'] == 'admin_user') : ?>
                 <li><a href="kelola_user.php" class="active"><i class="fas fa-users"></i> Kelola User</a></li>
             <?php endif; ?>
-            <?php if ($_SESSION['role'] == 'super_admin') : ?>
+            <?php if ($auth['role'] == 'super_admin') : ?>
                 <li><a href="kelola_admin.php"><i class="fas fa-user-shield"></i> Kelola Admin</a></li>
             <?php endif; ?>
             <li><a href="kelola_antrean.php"><i class="fas fa-clipboard-list"></i> Kelola Antrean</a></li>

@@ -4,7 +4,7 @@ session_start();
 require '../service/koneksi.php';
 
 // Proteksi Keamanan: Hanya super_admin yang boleh mengedit data admin lain (untuk mencegah abuse).
-if (!isset($_SESSION['id']) || $_SESSION['role'] != 'super_admin') {
+if (!isset($_SESSION['id']) || $auth['role'] != 'super_admin') {
     header("Location: ../dashboardAdmin.php"); 
     exit();
 }

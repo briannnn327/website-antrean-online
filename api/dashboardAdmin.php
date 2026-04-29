@@ -3,15 +3,9 @@ require_once __DIR__ . '/service/auth.php';
 require_once __DIR__ . '/service/koneksi.php';
 
 $auth = get_auth();
-if (!$auth || $auth['role'] != 'admin') {
+$allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
     header("Location: /login");
-    exit();
-}
-
-// Pengecekan Otorisasi: Hanya admin yang bisa akses dashboard ini. Jika user biasa, redirect ke login.
-$allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];  // Daftar role yang diizinkan
-if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
-    header("Location: login.php"); 
     exit();
 }
 
@@ -44,12 +38,12 @@ $antrean_recent = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC
         <div class="sidebar-section">Kelola</div>
         <ul class="sidebar-menu">
             <!-- Kelola User: Hanya super_admin dan admin_user yang lihat opsi ini. -->
-            <?php if ($_SESSION['role'] == 'super_admin' || $_SESSION['role'] == 'admin_user') : ?>
+            <?php if ($auth['role'] == 'super_admin' || $auth['role'] == 'admin_user') : ?>
                 <li><a href="admin/kelola_user.php"><i class="fas fa-users"></i> Kelola User</a></li>
             <?php endif; ?>
 
             <!-- Kelola Admin: Hanya super_admin yang lihat opsi ini. -->
-            <?php if ($_SESSION['role'] == 'super_admin') : ?>
+            <?php if ($auth['role'] == 'super_admin') : ?>
                 <li><a href="admin/kelola_admin.php"><i class="fas fa-user-shield"></i> Kelola Admin</a></li>
             <?php endif; ?>
 
@@ -68,7 +62,7 @@ $antrean_recent = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC
         <div class="navbar">
             <div class="nav-user">
                 <i class="fas fa-user-shield"></i> 
-                <span><?= htmlspecialchars($auth['nama']) ?> (<?= ucfirst(str_replace('_', ' ', $_SESSION['role'])) ?>)</span>
+                <span><?= htmlspecialchars($auth['nama']) ?> (<?= ucfirst(str_replace('_', ' ', $auth['role'])) ?>)</span>
             </div>
             <a href="../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
@@ -84,7 +78,7 @@ $antrean_recent = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC
                     <div class="stat-info"><p>Total User</p><h2><?= $total_user ?></h2></div>
                 </div>
                 <!-- Admin Only Stat: Kartu Total Admin hanya ditampilkan untuk super_admin yang punya akses kelola admin. -->
-                <?php if ($_SESSION['role'] == 'super_admin') : ?>
+                <?php if ($auth['role'] == 'super_admin') : ?>
                 <div class="stat-card">
                     <div class="stat-icon orange"><i class="fas fa-user-shield"></i></div>
                     <div class="stat-info"><p>Total Admin</p><h2><?= $total_admin ?></h2></div>
@@ -130,7 +124,7 @@ $antrean_recent = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC
                                 <!-- Action Buttons: Edit dan Hapus (dengan pengecekan role - hanya super_admin dan admin_user bisa hapus). -->
                                 <td>
                                     <a href="admin/edit_antrean.php?id=<?= $row['id'] ?>" class="btn-edit"><i class="fas fa-edit"></i> Edit</a>
-                                    <?php if ($_SESSION['role'] == 'super_admin' || $_SESSION['role'] == 'admin_user') : ?>
+                                    <?php if ($auth['role'] == 'super_admin' || $auth['role'] == 'admin_user') : ?>
                                         <a href="proses/prosesHapusAntrean.php?id=<?= $row['id'] ?>" class="btn-delete" onclick="return confirm('Hapus antrean ini?')"><i class="fas fa-trash"></i> Hapus</a>
                                     <?php endif; ?>
                                 </td>

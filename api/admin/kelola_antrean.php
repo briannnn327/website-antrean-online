@@ -6,7 +6,7 @@ require '../service/koneksi.php';
 // Daftar Role yang Diizinkan: Semua tipe admin (super_admin, admin_user, admin_antrean) bisa mengakses halaman ini.
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
 // Pengecekan Autentikasi: Memastikan user sudah login dan memiliki role yang tepat. Jika tidak, redirect ke dashboard.
-if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
+if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
     header("Location: ../login.php"); 
     exit();
 }
@@ -35,12 +35,12 @@ $antrean = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC");
         <div class="sidebar-section">Kelola</div>
         <ul class="sidebar-menu">
             <!-- Kelola User Menu: Hanya super_admin dan admin_user yang bisa lihat opsi ini. -->
-            <?php if ($_SESSION['role'] == 'super_admin' || $_SESSION['role'] == 'admin_user') : ?>
+            <?php if ($auth['role'] == 'super_admin' || $auth['role'] == 'admin_user') : ?>
                 <li><a href="kelola_user.php"><i class="fas fa-users"></i> Kelola User</a></li>
             <?php endif; ?>
 
             <!-- Kelola Admin Menu: Hanya super_admin yang bisa lihat opsi ini untuk mengelola admin lainnya. -->
-            <?php if ($_SESSION['role'] == 'super_admin') : ?>
+            <?php if ($auth['role'] == 'super_admin') : ?>
                 <li><a href="kelola_admin.php"><i class="fas fa-user-shield"></i> Kelola Admin</a></li>
             <?php endif; ?>
 
@@ -56,7 +56,7 @@ $antrean = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC");
         <div class="navbar">
             <div class="nav-user">
                 <i class="fas fa-user-shield"></i> 
-                Admin: <span><?= htmlspecialchars($auth['nama']) ?> (<?= ucfirst(str_replace('_', ' ', $_SESSION['role'])) ?>)</span>
+                Admin: <span><?= htmlspecialchars($auth['nama']) ?> (<?= ucfirst(str_replace('_', ' ', $auth['role'])) ?>)</span>
             </div>
             <a href="../../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>

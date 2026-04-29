@@ -7,7 +7,7 @@ require __DIR__ . '/../service/koneksi.php';
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
 
 // Pengecekan Autentikasi: Memastikan user sudah login dan memiliki role yang diizinkan. Jika tidak, redirect ke dashboard.
-if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
+if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
     header("Location: ../dashboardAdmin.php"); 
     exit();
 }

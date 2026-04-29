@@ -4,7 +4,7 @@ session_start();
 require __DIR__ . '/../service/koneksi.php';
 // Daftar Role yang Diizinkan: Hanya super_admin dan admin_user yang bisa mengedit user.
 $allowed_roles = ['super_admin', 'admin_user'];
-if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
+if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
     header("Location: ../dashboardAdmin.php"); exit();
 }
 
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Update Session: Jika user sedang update datanya sendiri, update session agar data yang ditampilkan terbaru.
         if ($id == $_SESSION['id']) {
             $auth['nama'] = $nama;
-            $_SESSION['role'] = $role;
+            $auth['role'] = $role;
         }   
     } else {
         $_SESSION['error'] = "Gagal mengupdate data.";

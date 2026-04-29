@@ -4,7 +4,7 @@ session_start();
 require '../service/koneksi.php';
 
 // Proteksi Keamanan: Hanya super_admin yang boleh akses halaman ini (mencegah akses dari admin lainnya).
-if (!isset($_SESSION['id']) || $_SESSION['role'] != 'super_admin') {
+if (!isset($_SESSION['id']) || $auth['role'] != 'super_admin') {
     header("Location: ../dashboardAdmin.php"); 
     exit();
 }

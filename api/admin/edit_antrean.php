@@ -4,7 +4,7 @@ session_start();
 require '../service/koneksi.php';
 // Daftar Role yang Diizinkan: Semua tipe admin (super_admin, admin_user, admin_antrean) boleh mengakses halaman edit.
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
-if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {
+if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
     header("Location: ../dashboardAdmin.php"); exit();
 }
 // Pengambilan Data Antrean: Mengambil ID antrean dari URL parameter GET dan fetch data dari database.
@@ -32,10 +32,10 @@ if (!$data) { die("Data antrean tidak ditemukan!"); }
         </ul>
         <div class="sidebar-section">Kelola</div>
         <ul class="sidebar-menu">
-            <?php if ($_SESSION['role'] == 'super_admin' || $_SESSION['role'] == 'admin_user') : ?>
+            <?php if ($auth['role'] == 'super_admin' || $auth['role'] == 'admin_user') : ?>
                 <li><a href="kelola_user.php"><i class="fas fa-users"></i> Kelola User</a></li>
             <?php endif; ?>
-            <?php if ($_SESSION['role'] == 'super_admin') : ?>
+            <?php if ($auth['role'] == 'super_admin') : ?>
                 <li><a href="kelola_admin.php"><i class="fas fa-user-shield"></i> Kelola Admin</a></li>
             <?php endif; ?>
             <li><a href="kelola_antrean.php" class="active"><i class="fas fa-clipboard-list"></i> Kelola Antrean</a></li>
