@@ -144,11 +144,10 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
 <script>
 async function fetchBPS() {
     const body = document.getElementById('data-api-body');
-
     body.innerHTML = '<tr><td colspan="5" style="text-align:center;">Memproses data dari BPS...</td></tr>';
 
     try {
-        const response = await fetch('api/api_kesehatan.php?v=' + Date.now());
+        const response = await fetch('https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/3500/var/206/th/118/key/e34d50c3e2e4773ebe4c8162f7a76057');
 
         if (!response.ok) {
             throw new Error("API tidak merespon. Status: " + response.status);
@@ -165,12 +164,11 @@ async function fetchBPS() {
         wilayah.forEach(w => {
             const idWil = String(w.val);
 
-            // 🔥 ambil key berdasarkan awal kode wilayah
             const findKey = (kodeTur) => {
                 return allKeys.find(k =>
-                    k.startsWith(idWil) &&   // wilayah cocok
-                    k.includes("206") &&     // variabel
-                    k.includes(kodeTur)      // turunan
+                    k.startsWith(idWil) &&
+                    k.includes("206") &&
+                    k.includes(kodeTur)
                 );
             };
 
