@@ -1,7 +1,8 @@
 {
+  "version": 2,
   "functions": {
     "api/**/*.php": {
-      "runtime": "vercel-php@0.7.1"
+      "runtime": "vercel-php@0.7.5"
     }
   },
   "routes": [
@@ -14,8 +15,24 @@
       "dest": "/api/admin/$1.php"
     },
     {
+      "src": "/login",
+      "dest": "/api/login.php"
+    },
+    {
+      "src": "/beranda",
+      "dest": "/api/beranda.php"
+    },
+    {
+      "src": "/dashboardAdmin",
+      "dest": "/api/dashboardAdmin.php"
+    },
+    {
       "src": "/api/(.*)\\.php",
       "dest": "/api/$1.php"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
     },
     {
       "src": "/(.*)",
