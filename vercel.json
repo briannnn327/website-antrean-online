@@ -21,6 +21,10 @@
       "dest": "/login.php"
     },
     {
+      "src": "/register.php",
+      "dest": "/register.php"
+    },
+    {
       "src": "/(.*).php",
       "dest": "/$1.php"
     },
