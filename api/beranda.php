@@ -28,6 +28,8 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
     </style>
 </head>
 <body>
+
+<div class="sidebar">
     <div class="sidebar-header">
         <i class="fas fa-hand-holding-medical brand-icon"></i> BrianHealty
     </div>
@@ -46,9 +48,6 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
 
 <div class="main-content">
     <div class="navbar">
-        <button class="hamburger" onclick="toggleSidebar()">
-            <span></span><span></span><span></span>
-        </button>
         <div class="nav-user">
             <i class="fas fa-user-circle"></i> Halo, 
             <span><?= htmlspecialchars($nama_user) ?></span>
@@ -143,52 +142,68 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
 </div>
 
 <script>
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('show');
-}
-function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-}
-
 async function fetchBPS() {
     const body = document.getElementById('data-api-body');
     body.innerHTML = '<tr><td colspan="5" style="text-align:center;">Memproses data dari BPS...</td></tr>';
+
     try {
         const response = await fetch('https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/3500/var/206/th/118/key/e34d50c3e2e4773ebe4c8162f7a76057');
-        if (!response.ok) throw new Error("API tidak merespon. Status: " + response.status);
+
+        if (!response.ok) {
+            throw new Error("API tidak merespon. Status: " + response.status);
+        }
+
         const res = await response.json();
+
         const wilayah = res.vervar;
         const dataVal = res.datacontent;
         const allKeys = Object.keys(dataVal);
+
         let baris = '';
+
         wilayah.forEach(w => {
             const idWil = String(w.val);
-            const findKey = (kodeTur) => allKeys.find(k =>
-                k.startsWith(idWil) && k.includes("206") && k.includes(kodeTur)
-            );
+
+            const findKey = (kodeTur) => {
+                return allKeys.find(k =>
+                    k.startsWith(idWil) &&
+                    k.includes("206") &&
+                    k.includes(kodeTur)
+                );
+            };
+
+            const keyRS    = findKey("178");
+            const keyPusk  = findKey("179");
+            const keyPosy  = findKey("180");
+            const keyPolin = findKey("181");
+
             const getVal = (key) => {
                 const v = dataVal[key];
                 if (!v || v === "-") return "0";
                 return Number(v).toLocaleString('id-ID');
             };
+
             baris += `
                 <tr>
                     <td class="font-bold">${w.label}</td>
-                    <td class="text-right">${getVal(findKey("178"))}</td>
-                    <td class="text-right">${getVal(findKey("179"))}</td>
-                    <td class="text-right">${getVal(findKey("180"))}</td>
-                    <td class="text-right">${getVal(findKey("181"))}</td>
+                    <td class="text-right">${getVal(keyRS)}</td>
+                    <td class="text-right">${getVal(keyPusk)}</td>
+                    <td class="text-right">${getVal(keyPosy)}</td>
+                    <td class="text-right">${getVal(keyPolin)}</td>
                 </tr>
             `;
         });
+
         body.innerHTML = baris;
+
     } catch (err) {
         console.error(err);
-        body.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;"><strong>Error:</strong><br>${err.message}</td></tr>`;
+        body.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">
+            <strong>Error:</strong><br>${err.message}
+        </td></tr>`;
     }
 }
+
 document.addEventListener('DOMContentLoaded', fetchBPS);
 </script>
 
