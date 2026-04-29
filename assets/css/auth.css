@@ -2,16 +2,17 @@
 body {
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #1a73e8 0%, #00bcd4 100%);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
+    padding: 16px;
 }
 
 .auth-card {
     background: #ffffff;
-    padding: 40px;
+    padding: 36px 32px;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     width: 100%;
@@ -22,7 +23,7 @@ body {
     text-align: center;
     margin-bottom: 8px;
     color: #1a73e8;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
 }
 
@@ -31,13 +32,13 @@ body {
 .auth-card h2 {
     text-align: center;
     color: #555;
-    margin-bottom: 28px;
-    font-size: 15px;
+    margin-bottom: 24px;
+    font-size: 14px;
     font-weight: 400;
 }
 
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     position: relative;
 }
 
@@ -87,7 +88,7 @@ body {
 
 .auth-footer {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 18px;
     font-size: 13px;
     color: #666;
 }
@@ -101,9 +102,18 @@ body {
 .alert {
     padding: 11px 14px;
     border-radius: 8px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     text-align: center;
     font-size: 13px;
 }
 .alert-error { background: #fdecea; color: #c0392b; border: 1px solid #f5c6cb; }
 .alert-success { background: #e8f5e9; color: #1e7e34; border: 1px solid #c3e6cb; }
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media (max-width: 480px) {
+    body { padding: 12px; align-items: flex-start; padding-top: 40px; }
+    .auth-card { padding: 28px 20px; border-radius: 14px; }
+    .auth-card .brand { font-size: 22px; }
+    .auth-card h2 { font-size: 13px; margin-bottom: 20px; }
+    .btn { font-size: 14px; padding: 12px; }
+}
