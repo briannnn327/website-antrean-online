@@ -1,13 +1,13 @@
 <?php
-//Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan.
-session_start();
-require '../service/koneksi.php';
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
 
-// Pengecekan Otorisasi: Hanya super_admin dan admin_user yang bisa mengakses halaman ini. Jika role berbeda, redirect.
-if (!isset($_SESSION['id']) || ($auth['role'] != 'super_admin' && $auth['role'] !== 'admin_user')) {
-    header("Location: ../dashboardAdmin.php"); exit();
+$auth = get_auth();
+$allowed_roles = ['super_admin', 'admin_user'];
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
+    header("Location: /login");
+    exit();
 }
-
 // Query Users: Mengambil semua user dengan role 'user' (bukan admin) dan mengurutkannya dari ID terbaru.
 $users = mysqli_query($koneksi, "SELECT * FROM user WHERE role='user' ORDER BY id DESC");
 ?>

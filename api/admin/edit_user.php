@@ -1,11 +1,12 @@
 <?php
-// Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan.
-session_start();
-require '../service/koneksi.php';
-// Daftar Role yang Diizinkan: Hanya super_admin dan admin_user yang bisa mengedit user.
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
+
+$auth = get_auth();
 $allowed_roles = ['super_admin', 'admin_user'];
-if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
-    header("Location: ../dashboardAdmin.php"); exit();
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
+    header("Location: /login");
+    exit();
 }
 // Pengambilan Data User: Mengambil ID user dari URL parameter GET dan fetch data dari database.
 $id = intval($_GET['id']);

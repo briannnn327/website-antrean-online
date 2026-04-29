@@ -1,13 +1,11 @@
 <?php
-// Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan.
-session_start();
-require '../service/koneksi.php';
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
 
-// Daftar Role yang Diizinkan: Semua tipe admin (super_admin, admin_user, admin_antrean) bisa mengakses halaman ini.
+$auth = get_auth();
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
-// Pengecekan Autentikasi: Memastikan user sudah login dan memiliki role yang tepat. Jika tidak, redirect ke dashboard.
-if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
-    header("Location: ../login.php"); 
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
+    header("Location: /login");
     exit();
 }
 

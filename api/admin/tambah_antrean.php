@@ -1,10 +1,12 @@
 <?php
-// Bagian Awal: Memulai session dan melakukan pengecekan keamanan (tidak perlu koneksi database di view).
-session_start();
-// Daftar Role yang Diizinkan: Semua tipe admin boleh akses halaman tambah antrean.
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
+
+$auth = get_auth();
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
-if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
-    header("Location: ../login.php"); exit();
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
+    header("Location: /login");
+    exit();
 }
 ?>
 <!DOCTYPE html>

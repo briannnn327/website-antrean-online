@@ -1,11 +1,12 @@
 <?php
-// Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan.
-session_start();
-require '../service/koneksi.php';
-// Daftar Role yang Diizinkan: Semua tipe admin (super_admin, admin_user, admin_antrean) boleh mengakses halaman edit.
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
+
+$auth = get_auth();
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
-if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
-    header("Location: ../dashboardAdmin.php"); exit();
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
+    header("Location: /login");
+    exit();
 }
 // Pengambilan Data Antrean: Mengambil ID antrean dari URL parameter GET dan fetch data dari database.
 $id = intval($_GET['id']);

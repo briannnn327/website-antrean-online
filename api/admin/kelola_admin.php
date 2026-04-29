@@ -1,11 +1,11 @@
 <?php
-//Bagian Awal: Memulai session dan memanggil koneksi database.
-session_start();
-require '../service/koneksi.php';
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
 
-// Proteksi Keamanan: Hanya super_admin yang boleh akses halaman ini (mencegah akses dari admin lainnya).
-if (!isset($_SESSION['id']) || $auth['role'] != 'super_admin') {
-    header("Location: ../dashboardAdmin.php"); 
+$auth = get_auth();
+$allowed_roles = ['super_admin'];
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
+    header("Location: /login");
     exit();
 }
 

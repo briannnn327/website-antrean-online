@@ -1,10 +1,12 @@
 <?php
-// Bagian Awal: Memulai session dan melakukan pengecekan keamanan.
-session_start();
-// Daftar Role yang Diizinkan: Hanya super_admin dan admin_user yang bisa menambah user baru.
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
+
+$auth = get_auth();
 $allowed_roles = ['super_admin', 'admin_user'];
-if (!isset($_SESSION['id']) || !in_array($auth['role'], $allowed_roles)) {
-    header("Location: ../dashboardAdmin.php"); exit();
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
+    header("Location: /login");
+    exit();
 }
 ?>
 <!DOCTYPE html>

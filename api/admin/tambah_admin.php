@@ -1,9 +1,11 @@
 <?php
-// Bagian Awal: Memulai session dan melakukan pengecekan keamanan.
-session_start();
-// Proteksi Keamanan: Hanya super_admin yang boleh menambah admin baru (untuk mencegah abuse).
-if (!isset($_SESSION['id']) || $auth['role'] != 'super_admin') {
-    header("Location: ../dashboardAdmin.php"); 
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
+
+$auth = get_auth();
+$allowed_roles = ['super_admin'];
+if (!$auth || !in_array($auth['role'], $allowed_roles)) {
+    header("Location: /login");
     exit();
 }
 ?>
