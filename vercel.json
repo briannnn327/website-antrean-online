@@ -1,40 +1,17 @@
-"functions": {
-  "api/**/*.php": {
-    "runtime": "vercel-php@0.7.2"
-  }
-}
-  "routes": [
-    {
-      "src": "/api/proses/(.*)\\.php",
-      "dest": "/api/proses/$1.php"
-    },
-    {
-      "src": "/api/admin/(.*)\\.php",
-      "dest": "/api/admin/$1.php"
-    },
-    {
-      "src": "/login",
-      "dest": "/api/login.php"
-    },
-    {
-      "src": "/beranda",
-      "dest": "/api/beranda.php"
-    },
-    {
-      "src": "/dashboardAdmin",
-      "dest": "/api/dashboardAdmin.php"
-    },
-    {
-      "src": "/api/(.*)\\.php",
-      "dest": "/api/$1.php"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/$1"
+{
+  "functions": {
+    "api/**/*.php": {
+      "runtime": "vercel-php@0.9.0"
     }
+  },
+  "rewrites": [
+    { "source": "/api/proses/:path*.php", "destination": "/api/proses/:path*.php" },
+    { "source": "/api/admin/:path*.php", "destination": "/api/admin/:path*.php" },
+    { "source": "/login", "destination": "/api/login.php" },
+    { "source": "/beranda", "destination": "/api/beranda.php" },
+    { "source": "/dashboardAdmin", "destination": "/api/dashboardAdmin.php" },
+    { "source": "/api/:path*.php", "destination": "/api/:path*.php" },
+    { "source": "/assets/:path*", "destination": "/assets/:path*" },
+    { "source": "/:path*", "destination": "/api/:path*" }
   ]
 }
