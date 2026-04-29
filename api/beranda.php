@@ -28,11 +28,6 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
     </style>
 </head>
 <body>
-
-<!-- Overlay untuk menutup sidebar di mobile -->
-<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
-
-<div class="sidebar" id="sidebar">
     <div class="sidebar-header">
         <i class="fas fa-hand-holding-medical brand-icon"></i> BrianHealty
     </div>
