@@ -24,6 +24,15 @@ $show_modal = isset($_GET['status']) && $_GET['status'] == 'sukses';
     <link rel="stylesheet" href="../assets/css/app.css">
 </head>
 <body>
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar seperti biasa -->
+    <div class="sidebar" id="sidebar">
+    ...
+    </div>
+
     <!-- Sidebar User: Menu navigasi untuk user dengan pendaftaran.php sebagai active. -->
     <div class="sidebar">
         <!-- Sidebar Header: Logo aplikasi "BrianHealty". -->
@@ -46,6 +55,15 @@ $show_modal = isset($_GET['status']) && $_GET['status'] == 'sukses';
     <div class="main-content">
          <!-- Navbar: Baris atas dengan greeting user dan tombol logout. -->
         <div class="navbar">
+            <div class="navbar">
+        <!-- Hamburger -->
+        <button class="hamburger" onclick="toggleSidebar()">
+            <span></span><span></span><span></span>
+        </button>
+        
+        <div class="nav-user">...</div>
+        <a href="logout.php" class="btn-logout">...</a>
+        </div>
             <!-- User Greeting: Menampilkan nama user yang login. -->
             <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($auth['nama']) ?></span></div>
             <!-- Logout Button: Tombol untuk logout. -->
@@ -123,6 +141,16 @@ $show_modal = isset($_GET['status']) && $_GET['status'] == 'sukses';
             </div>
         </div>
     </div>
+    <script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('show');
+    }
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+</script>
 </body>
 </html>
 
