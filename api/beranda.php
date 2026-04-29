@@ -8,10 +8,10 @@ if (!$auth || $auth['role'] != 'user') {
     exit();
 }
 
-$nama_user = $auth['nama'];
-$antrean         = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC LIMIT 10");
-$total_antrean   = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian"))['total'];
-$antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian WHERE tanggal_kunjungan = CURDATE()"))['total'];
+$nama_user        = $auth['nama'];
+$antrean          = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC LIMIT 10");
+$total_antrean    = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian"))['total'];
+$antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) as total FROM antrian WHERE tanggal_kunjungan = DATE(CONVERT_TZ(NOW(), '+00:00', '+07:00'))"))['total'];
 ?>
 <!DOCTYPE html>
 <html lang="id">
