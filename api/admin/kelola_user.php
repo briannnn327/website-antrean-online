@@ -54,7 +54,6 @@ $users = mysqli_query($koneksi, "SELECT * FROM user WHERE role='user' ORDER BY i
     <div class="main-content">
         <!-- Navbar Header: Menampilkan informasi admin yang sedang login dan tombol logout. -->
         <div class="navbar">
-        <div class="navbar">
         <!-- Hamburger -->
         <button class="hamburger" onclick="toggleSidebar()">
             <span></span><span></span><span></span>

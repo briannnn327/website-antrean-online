@@ -19,6 +19,15 @@ if (!$auth || !in_array($auth['role'], $allowed_roles)) {
     <link rel="stylesheet" href="../../assets/css/app.css">
 </head>
 <body>
+
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar seperti biasa -->
+    <div class="sidebar" id="sidebar">
+    ...
+    </div>
+
     <div class="sidebar admin-theme">
         <div class="sidebar-header"><i class="fas fa-shield-alt brand-icon"></i> Admin Panel</div>
         <div class="sidebar-section">Dashboard</div>
@@ -42,6 +51,15 @@ if (!$auth || !in_array($auth['role'], $allowed_roles)) {
     </div>
     <div class="main-content">
         <div class="navbar">
+            <!-- Hamburger -->
+            <button class="hamburger" onclick="toggleSidebar()">
+                <span></span><span></span><span></span>
+            </button>
+            
+            <div class="nav-user">...</div>
+            <a href="logout.php" class="btn-logout">...</a>
+            </div>
+
             <div class="nav-user"><i class="fas fa-user-shield"></i> Admin: <span><?= htmlspecialchars($auth['nama']) ?></span></div>
             <a href="../../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
@@ -89,5 +107,16 @@ if (!$auth || !in_array($auth['role'], $allowed_roles)) {
             </div>
         </div>
     </div>
+
+    <script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('show');
+    }
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
+    }
+    </script>
 </body>
 </html>

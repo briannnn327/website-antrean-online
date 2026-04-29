@@ -53,7 +53,6 @@ $admins = mysqli_query($koneksi, "SELECT * FROM user WHERE role IN ('super_admin
     </div>
     <div class="main-content">
         <div class="navbar">
-        <div class="navbar">
         <!-- Hamburger -->
         <button class="hamburger" onclick="toggleSidebar()">
             <span></span><span></span><span></span>

@@ -49,8 +49,6 @@ if (!$auth || !in_array($auth['role'], $allowed_roles)) {
     </div>
     <div class="main-content">
         <div class="navbar">
-
-        <div class="navbar">
         <!-- Hamburger -->
         <button class="hamburger" onclick="toggleSidebar()">
             <span></span><span></span><span></span>

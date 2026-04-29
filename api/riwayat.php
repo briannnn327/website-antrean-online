@@ -51,7 +51,6 @@ $antrean = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC");
     <div class="main-content">
         <!-- Navbar Atas: Menampilkan nama user yang sedang login menggunakan session dan menyediakan tombol logout. -->
         <div class="navbar">
-            <div class="navbar">
                 <!-- Hamburger -->
                 <button class="hamburger" onclick="toggleSidebar()">
                     <span></span><span></span><span></span>

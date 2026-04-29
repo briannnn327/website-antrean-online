@@ -61,7 +61,6 @@ $antrean_recent = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC
     </div>
 
     <div class="main-content">
-        <div class="navbar">
 
             <div class="navbar">
             <!-- Hamburger -->

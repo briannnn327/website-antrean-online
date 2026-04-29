@@ -55,7 +55,6 @@ $show_modal = isset($_GET['status']) && $_GET['status'] == 'sukses';
     <div class="main-content">
          <!-- Navbar: Baris atas dengan greeting user dan tombol logout. -->
         <div class="navbar">
-            <div class="navbar">
         <!-- Hamburger -->
         <button class="hamburger" onclick="toggleSidebar()">
             <span></span><span></span><span></span>
