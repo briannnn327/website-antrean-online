@@ -24,14 +24,6 @@ $antrean = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC");
 </head>
 <body>
 
-<!-- Overlay -->
-<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
-
-<!-- Sidebar seperti biasa -->
-<div class="sidebar" id="sidebar">
-  ...
-</div>
-
     <!-- Sidebar: Menu navigasi samping untuk memudahkan user berpindah antar fitur seperti Dashboard, Layanan, dan Riwayat. -->
     <div class="sidebar">
         <div class="sidebar-header"><i class="fas fa-hand-holding-medical brand-icon"></i> BrianHealty</div>
@@ -51,15 +43,6 @@ $antrean = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC");
     <div class="main-content">
         <!-- Navbar Atas: Menampilkan nama user yang sedang login menggunakan session dan menyediakan tombol logout. -->
         <div class="navbar">
-                <!-- Hamburger -->
-                <button class="hamburger" onclick="toggleSidebar()">
-                    <span></span><span></span><span></span>
-                </button>
-                
-                <div class="nav-user">...</div>
-                <a href="logout.php" class="btn-logout">...</a>
-            </div>
-
             <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($auth['nama']) ?></span></div>
             <a href="../index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
@@ -104,15 +87,5 @@ $antrean = mysqli_query($koneksi, "SELECT * FROM antrian ORDER BY id DESC");
             </div>
         </div>
     </div>
-    <script>
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('open');
-        document.getElementById('overlay').classList.toggle('show');
-    }
-    function closeSidebar() {
-        document.getElementById('sidebar').classList.remove('open');
-        document.getElementById('overlay').classList.remove('show');
-    }
-</script>
 </body>
 </html>

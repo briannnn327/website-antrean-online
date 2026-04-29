@@ -27,14 +27,6 @@ if (!$auth || $auth['role'] != 'user') {
     </style>
 </head>
 <body>
-
-    <!-- Overlay -->
-    <div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
-
-    <!-- Sidebar seperti biasa -->
-    <div class="sidebar" id="sidebar">
-    ...
-    </div>
     <!-- Sidebar User: Menu navigasi untuk user dengan link ke berbagai halaman user. -->
     <div class="sidebar">
         <!-- Sidebar Header: Logo dan nama aplikasi "BrianHealty". -->
@@ -57,15 +49,6 @@ if (!$auth || $auth['role'] != 'user') {
     </div>
     <div class="main-content">
         <div class="navbar">
-            <!-- Hamburger -->
-            <button class="hamburger" onclick="toggleSidebar()">
-                <span></span><span></span><span></span>
-            </button>
-            
-            <div class="nav-user">...</div>
-            <a href="logout.php" class="btn-logout">...</a>
-        </div>
-
             <div class="nav-user"><i class="fas fa-user-circle"></i> Halo, <span><?= htmlspecialchars($auth['nama']) ?></span></div>
             <a href="../index.php" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
@@ -113,17 +96,5 @@ if (!$auth || $auth['role'] != 'user') {
             </div>
         </div>
     </div>
-    <script>
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('open');
-        document.getElementById('overlay').classList.toggle('show');
-    }
-    function closeSidebar() {
-        document.getElementById('sidebar').classList.remove('open');
-        document.getElementById('overlay').classList.remove('show');
-    }
-    </script>
-
-
 </body>
 </html>

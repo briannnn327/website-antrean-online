@@ -22,13 +22,6 @@ $admins = mysqli_query($koneksi, "SELECT * FROM user WHERE role IN ('super_admin
     <link rel="stylesheet" href="../../assets/css/app.css">
 </head>
 <body>
-<!-- Overlay -->
-<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
-
-<!-- Sidebar seperti biasa -->
-<div class="sidebar" id="sidebar">
-  ...
-</div>
     <!-- Sidebar Admin: Menu navigasi khusus untuk super_admin dengan akses ke semua fitur kelola. -->
     <div class="sidebar admin-theme">
         <div class="sidebar-header"><i class="fas fa-shield-alt brand-icon"></i> Admin Panel</div>
@@ -53,14 +46,6 @@ $admins = mysqli_query($koneksi, "SELECT * FROM user WHERE role IN ('super_admin
     </div>
     <div class="main-content">
         <div class="navbar">
-        <!-- Hamburger -->
-        <button class="hamburger" onclick="toggleSidebar()">
-            <span></span><span></span><span></span>
-        </button>
-        
-        <div class="nav-user">...</div>
-        <a href="logout.php" class="btn-logout">...</a>
-        </div>
             <!-- Navbar Admin: Menampilkan nama admin dan role "Super Admin" yang sedang login. -->
             <div class="nav-user">
                 <i class="fas fa-user-shield"></i> 
@@ -123,15 +108,5 @@ $admins = mysqli_query($koneksi, "SELECT * FROM user WHERE role IN ('super_admin
             </div>
         </div>
     </div>
-    <script>
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('open');
-        document.getElementById('overlay').classList.toggle('show');
-    }
-    function closeSidebar() {
-        document.getElementById('sidebar').classList.remove('open');
-        document.getElementById('overlay').classList.remove('show');
-    }
-    </script>
 </body>
 </html>
