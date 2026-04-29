@@ -1,7 +1,7 @@
 <?php
 // Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan.
 session_start();
-require '../service/koneksi.php';
+require __DIR__ . '/../service/koneksi.php';
 
 // Daftar Role yang Diizinkan: Semua level admin boleh memproses penambahan antrean.
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];

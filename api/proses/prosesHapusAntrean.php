@@ -1,7 +1,7 @@
 <?php
 // Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan (hanya admin yang bisa hapus).
 session_start();
-require '../service/koneksi.php';
+require __DIR__ . '/../service/koneksi.php';
 
 // Daftar Role yang Diizinkan: Hanya super_admin, admin_user, dan admin_antrean yang boleh menghapus antrean.
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];

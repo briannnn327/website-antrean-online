@@ -1,7 +1,7 @@
 <?php
 // Bagian Awal: Memulai session dan menyambungkan koneksi database.
 session_start();
-require '../service/koneksi.php';
+require __DIR__ . '/../service/koneksi.php';
 
 // Proteksi: Memastikan user sudah login sebelum bisa mengakses file proses ini.
 if (!isset($_SESSION['id'])) { 

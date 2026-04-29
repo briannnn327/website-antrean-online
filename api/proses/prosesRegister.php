@@ -1,7 +1,7 @@
 <?php
 // Bagian Awal: Memulai session dan memanggil file koneksi database.
 session_start();
-require '../service/koneksi.php';
+require __DIR__ . '/../service/koneksi.php';
 
 // Pengecekan Metode: Memastikan form dikirim dengan metode POST (bukan GET atau yang lain).
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

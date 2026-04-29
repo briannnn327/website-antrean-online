@@ -1,7 +1,7 @@
 <?php
 // Bagian Awal: Memulai session, memanggil koneksi database, dan melakukan pengecekan keamanan.
 session_start();
-require '../service/koneksi.php';
+require __DIR__ . '/../service/koneksi.php';
 // Daftar Role yang Diizinkan: Hanya super_admin dan admin_user yang bisa menghapus user/admin.
 $allowed_roles = ['super_admin', 'admin_user'];
 if (!isset($_SESSION['id']) || !in_array($_SESSION['role'], $allowed_roles)) {

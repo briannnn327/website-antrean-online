@@ -2,7 +2,7 @@
 // Bagian Awal: Memulai session dan memanggil file koneksi database.
 session_start();
 // Path Koneksi: Dari folder 'proses', naik 1 tingkat (../) untuk masuk ke folder 'api', kemudian ke folder 'service'.
-require '../service/koneksi.php'; 
+require __DIR__ . '/../service/koneksi.php'; 
 
 // Pengecekan Metode: Memastikan form dikirim dengan metode POST dari halaman login.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
