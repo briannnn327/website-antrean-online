@@ -1,5 +1,3 @@
-
-?>
 <?php
 // Data dari TiDB Cloud
 $host = 'gateway01.ap-southeast-1.prod.alicloud.tidbcloud.com';
@@ -29,4 +27,4 @@ $real_connect = mysqli_real_connect(
 if (!$real_connect) {
     die("Koneksi ke TiDB Cloud gagal: " . mysqli_connect_error());
 }
-?>
+?> 
