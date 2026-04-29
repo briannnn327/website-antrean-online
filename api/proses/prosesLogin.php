@@ -1,49 +1,45 @@
 <?php
-// Bagian Awal: Memulai session dan memanggil file koneksi database.
+// 1. Output Buffering untuk mencegah error "Headers already sent"
+ob_start();
 session_start();
-// Path Koneksi: Dari folder 'proses', naik 1 tingkat (../) untuk masuk ke folder 'api', kemudian ke folder 'service'.
-require __DIR__ . '/../service/koneksi.php'; 
 
-// Pengecekan Metode: Memastikan form dikirim dengan metode POST dari halaman login.
+// 2. Gunakan path yang lebih aman
+require_once __DIR__ . '/../service/koneksi.php'; 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Pengambilan Input: Mengambil email dan password dari form login dan membersihkannya dengan htmlspecialchars().
-    $email    = htmlspecialchars($_POST['email']);      // Email user dari form login
-    $password = $_POST['password'];                     // Password dalam plain text (akan diverifikasi dengan hash)
+    // Membersihkan input
+    $email    = mysqli_real_escape_string($koneksi, $_POST['email']);
+    $password = $_POST['password'];
 
-    // Query User: Mencari user dengan email yang sesuai di database.
     $query  = mysqli_query($koneksi, "SELECT * FROM user WHERE email='$email'");
 
-    // Pengecekan User Exists: Jika user dengan email tersebut ditemukan (hasil query = 1 baris).
     if (mysqli_num_rows($query) === 1) {
-        // Fetch User Data: Mengambil data user dari hasil query ke dalam array.
         $row = mysqli_fetch_assoc($query);
-        // Verifikasi Password: Mengecek apakah password yang diinput sesuai dengan hash di database menggunakan password_verify().
+        
         if (password_verify($password, $row['password'])) {
-            // Set Session Data: Menyimpan data user (id, nama, role) ke dalam session untuk digunakan di halaman lain.
-            $_SESSION['id']   = $row['id'];             // ID user untuk identifikasi
-            $_SESSION['nama'] = $row['nama'];           // Nama user untuk ditampilkan
-            $_SESSION['role'] = $row['role'];           // Role user (user, super_admin, admin_user, atau admin_antrean)
+            $_SESSION['id']   = $row['id'];
+            $_SESSION['nama'] = $row['nama'];
+            $_SESSION['role'] = $row['role'];
 
-            // Pengecekan Role & Redirect: Jika user adalah admin (super_admin, admin_user, admin_antrean), redirect ke dashboard admin. Jika user biasa, redirect ke beranda.
-            if ($row['role'] == 'super_admin' || $row['role'] == 'admin_user' || $row['role'] == 'admin_antrean') {
-                // Admin Dashboard: Redirect ke halaman dashboard admin.
-                header("Location: api/dashboardAdmin.php");
+            // 3. PERBAIKAN PATH REDIRECT
+            // Di Vercel, arahkan langsung ke root (/) atau folder yang sesuai dari domain utama
+            if (in_array($row['role'], ['super_admin', 'admin_user', 'admin_antrean'])) {
+                header("Location: /dashboardAdmin.php");
             } else {
-                // User Dashboard: Redirect ke halaman beranda user biasa.
-                header("Location: api/beranda.php");
+                header("Location: /beranda.php");
             }
             exit();
         } else {
-            // Error Password: Password yang diinput tidak sesuai dengan yang tersimpan di database.
             $_SESSION['error'] = "Password salah!";
-            header("Location: api/login.php");
+            header("Location: /login.php");
             exit();
         }
     } else {
-        // Error Email Not Found: Email yang diinput tidak ditemukan di database.
         $_SESSION['error'] = "Email tidak ditemukan!";
-        header("Location: api/login.php");
+        header("Location: /login.php");
         exit();
     }
 }
-?>
+
+// 4. Mengakhiri output buffering
+ob_end_flush();
