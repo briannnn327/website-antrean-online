@@ -1,8 +1,11 @@
 <?php
-require_once __DIR__ . '/../service/auth.php';
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
+
 $auth = get_auth();
 if (!$auth || $auth['role'] != 'user') {
-    header("Location: ../user/login.php"); exit();
+    header("Location: /login");
+    exit();
 }
 
 //Bagian Query: Mengambil semua data dari tabel 'antrian' dan mengurutkannya dari yang terbaru (ID DESC) untuk ditampilkan di tabel riwayat.

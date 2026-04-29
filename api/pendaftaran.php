@@ -1,9 +1,13 @@
 <?php
-require_once __DIR__ . '/../service/auth.php';
+require_once __DIR__ . '/service/auth.php';
+require_once __DIR__ . '/service/koneksi.php';
+
 $auth = get_auth();
 if (!$auth || $auth['role'] != 'user') {
-    header("Location: ../user/login.php"); exit();
+    header("Location: /login");
+    exit();
 }
+
 // Poli Pre-selected: Mengambil parameter 'poli' dari URL jika user datang dari halaman layanan (untuk pre-select dropdown).
 $poli_selected = $_GET['poli'] ?? '';
 // Modal Success Check: Mengecek apakah ada parameter 'status=sukses' untuk menampilkan modal sukses.
