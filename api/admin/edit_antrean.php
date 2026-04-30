@@ -1,5 +1,4 @@
 <?php
-<?php
 require_once __DIR__ . '/service/auth.php';
 require_once __DIR__ . '/service/koneksi.php';
 
