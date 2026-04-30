@@ -29,7 +29,10 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
 </head>
 <body>
 
-<div class="sidebar">
+<!-- ✅ OVERLAY (klik untuk tutup sidebar di mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="sidebar" id="sidebar">
     <div class="sidebar-header">
         <i class="fas fa-hand-holding-medical brand-icon"></i> BrianHealty
     </div>
@@ -48,6 +51,13 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
 
 <div class="main-content">
     <div class="navbar">
+        <!-- ✅ HAMBURGER BUTTON -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
         <div class="nav-user">
             <i class="fas fa-user-circle"></i> Halo, 
             <span><?= htmlspecialchars($nama_user) ?></span>
@@ -142,6 +152,37 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
 </div>
 
 <script>
+// ✅ HAMBURGER TOGGLE
+const hamburgerBtn   = document.getElementById('hamburgerBtn');
+const sidebar        = document.getElementById('sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+function openSidebar() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+hamburgerBtn.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+});
+
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+// Tutup sidebar saat link diklik (mobile UX)
+document.querySelectorAll('.sidebar-menu li a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeSidebar();
+    });
+});
+
+// ✅ BPS API
 async function fetchBPS() {
     const body = document.getElementById('data-api-body');
     body.innerHTML = '<tr><td colspan="5" style="text-align:center;">Memproses data dari BPS...</td></tr>';
@@ -149,33 +190,20 @@ async function fetchBPS() {
     try {
         const response = await fetch('https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/3500/var/206/th/118/key/e34d50c3e2e4773ebe4c8162f7a76057');
 
-        if (!response.ok) {
-            throw new Error("API tidak merespon. Status: " + response.status);
-        }
+        if (!response.ok) throw new Error("API tidak merespon. Status: " + response.status);
 
-        const res = await response.json();
-
-        const wilayah = res.vervar;
-        const dataVal = res.datacontent;
-        const allKeys = Object.keys(dataVal);
+        const res      = await response.json();
+        const wilayah  = res.vervar;
+        const dataVal  = res.datacontent;
+        const allKeys  = Object.keys(dataVal);
 
         let baris = '';
 
         wilayah.forEach(w => {
             const idWil = String(w.val);
-
-            const findKey = (kodeTur) => {
-                return allKeys.find(k =>
-                    k.startsWith(idWil) &&
-                    k.includes("206") &&
-                    k.includes(kodeTur)
-                );
-            };
-
-            const keyRS    = findKey("178");
-            const keyPusk  = findKey("179");
-            const keyPosy  = findKey("180");
-            const keyPolin = findKey("181");
+            const findKey = (kodeTur) => allKeys.find(k =>
+                k.startsWith(idWil) && k.includes("206") && k.includes(kodeTur)
+            );
 
             const getVal = (key) => {
                 const v = dataVal[key];
@@ -186,10 +214,10 @@ async function fetchBPS() {
             baris += `
                 <tr>
                     <td class="font-bold">${w.label}</td>
-                    <td class="text-right">${getVal(keyRS)}</td>
-                    <td class="text-right">${getVal(keyPusk)}</td>
-                    <td class="text-right">${getVal(keyPosy)}</td>
-                    <td class="text-right">${getVal(keyPolin)}</td>
+                    <td class="text-right">${getVal(findKey("178"))}</td>
+                    <td class="text-right">${getVal(findKey("179"))}</td>
+                    <td class="text-right">${getVal(findKey("180"))}</td>
+                    <td class="text-right">${getVal(findKey("181"))}</td>
                 </tr>
             `;
         });
