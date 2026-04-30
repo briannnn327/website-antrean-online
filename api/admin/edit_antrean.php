@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/service/auth.php';
-require_once __DIR__ . '/service/koneksi.php';
+require_once __DIR__ . '/../service/auth.php';
+require_once __DIR__ . '/../service/koneksi.php';
 
 $auth = get_auth();
 $allowed_roles = ['super_admin', 'admin_user', 'admin_antrean'];
@@ -8,11 +8,11 @@ if (!$auth || !in_array($auth['role'], $allowed_roles)) {
     header("Location: /login");
     exit();
 }
-// Pengambilan Data Antrean: Mengambil ID antrean dari URL parameter GET dan fetch data dari database.
+
 $id = intval($_GET['id']);
 $q = mysqli_query($koneksi, "SELECT * FROM antrian WHERE id='$id'");
 $data = mysqli_fetch_assoc($q);
-// Validasi Data Exists: Jika data antrean tidak ditemukan, tampilkan error dan hentikan eksekusi.
+
 if (!$data) { die("Data antrean tidak ditemukan!"); }
 ?>
 <!DOCTYPE html>
@@ -57,16 +57,12 @@ if (!$data) { die("Data antrean tidak ditemukan!"); }
             </div>
             <div class="card" style="max-width:620px;">
                 <h3>Form Edit Antrean</h3>
-                <!-- Form Edit Antrean: Formulir untuk mengubah data antrean yang sudah ada (nama, NIK, poli, tanggal, nomor). -->
                 <form action="../proses/prosesEditAntrean.php" method="POST">
-                    <!-- Hidden Input ID: Menyimpan ID antrean yang sedang diubah untuk digunakan oleh proses update. -->
                     <input type="hidden" name="id" value="<?= $data['id'] ?>">
-                    <!-- Nama Pasien Input: Kolom teks untuk mengubah nama pasien yang sudah terisi dengan data lama. -->
                     <div class="form-group">
                         <label>Nama Lengkap Pasien</label>
                         <input type="text" name="nama_pasien" required value="<?= htmlspecialchars($data['nama_pasien']) ?>">
                     </div>
-                    <!-- NIK Input: Kolom teks untuk mengubah NIK pasien (max 16 digit). -->
                     <div class="form-group">
                         <label>NIK</label>
                         <input type="text" name="nik" required maxlength="16" value="<?= $data['nik'] ?>">
@@ -74,9 +70,7 @@ if (!$data) { die("Data antrean tidak ditemukan!"); }
                     <div class="form-grid-2">
                         <div class="form-group">
                             <label>Poliklinik</label>
-                    <!-- Poli Dropdown: Select untuk mengubah poliklinik (dengan pre-selected sesuai data lama). -->
                             <select name="poli" required>
-                                <!-- PHP Loop Generate Options: Membuat option dropdown untuk semua jenis poli, dengan selected sesuai poli yang sudah terdaftar. -->
                                 <?php
                                 $polis = ['Poli Umum','Poli Gigi','Poli Anak','Poli Mata','Poli Jantung','Poli Saraf'];
                                 foreach($polis as $p) {
