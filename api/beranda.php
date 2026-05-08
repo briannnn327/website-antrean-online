@@ -126,22 +126,21 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
             </div>
         </div>
 
+        <!-- Tabel Data BPS -->
         <div class="card" style="margin-top: 20px;">
-            <h3><i class="fas fa-chart-line"></i> Data Fasilitas Kesehatan (BPS 2017)</h3>
+            <h3><i class="fas fa-chart-line"></i> Persentase Keluhan Kesehatan (BPS 2017)</h3>
             <div class="table-wrap">
                 <table>
                     <thead>
                         <tr style="background: #f8f9fa;">
-                            <th>Kab/Kota</th>
-                            <th class="text-right">Rumah Sakit</th>
-                            <th class="text-right">Puskesmas</th>
-                            <th class="text-right">Posyandu</th>
-                            <th class="text-right">Polindes</th>
+                            <th>No</th>
+                            <th>Provinsi</th>
+                            <th class="text-right">Persentase Keluhan (%)</th>
                         </tr>
                     </thead>
                     <tbody id="data-api-body">
                         <tr>
-                            <td colspan="5" style="text-align:center;">Memproses data dari BPS...</td>
+                            <td colspan="3" style="text-align:center;">Memproses data dari BPS...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -175,70 +174,45 @@ hamburgerBtn.addEventListener('click', () => {
 
 sidebarOverlay.addEventListener('click', closeSidebar);
 
-// Tutup sidebar saat link diklik (mobile UX)
-document.querySelectorAll('.sidebar-menu li a').forEach(link => {
-    link.addEventListener('click', () => {
-        if (window.innerWidth <= 768) closeSidebar();
-    });
-});
-
-// ✅ BPS API (Diperbarui dengan Endpoint Baru)
+// ✅ FETCH DATA BPS (Struktur SIMDASI Modern)
 async function fetchBPS() {
     const body = document.getElementById('data-api-body');
-    body.innerHTML = '<tr><td colspan="5" style="text-align:center;">Memproses data dari BPS...</td></tr>';
-
+    
     try {
-        // Link API BPS terbaru
         const response = await fetch("https://webapi.bps.go.id/v1/api/interoperabilitas/datasource/simdasi/id/25/tahun/2017/id_tabel/TEptbDV0QlRORVl6cjl0THhMbk02Zz09/wilayah/0000000/key/e34d50c3e2e4773ebe4c8162f7a76057");
 
-        if (!response.ok) throw new Error("API tidak merespon. Status: " + response.status);
+        if (!response.ok) throw new Error("Gagal mengambil data. Status: " + response.status);
 
         const res = await response.json();
         
-        // Log untuk mengecek struktur data baru di Console (Tekan F12 di browser)
-        console.log("Response API BPS:", res);
-
-        // Pengecekan apakah response JSON menggunakan struktur lama atau baru
-        if (res.vervar && res.datacontent) {
-            // Jika formatnya masih sesuai dengan logika lama
-            const wilayah  = res.vervar;
-            const dataVal  = res.datacontent;
-            const allKeys  = Object.keys(dataVal);
-
+        // Data utama berada di res.data[1].data
+        if (res.status === "OK" && res.data[1] && res.data[1].data) {
+            const listProvinsi = res.data[1].data;
             let baris = '';
 
-            wilayah.forEach(w => {
-                const idWil = String(w.val);
-                const findKey = (kodeTur) => allKeys.find(k =>
-                    k.startsWith(idWil) && k.includes("206") && k.includes(kodeTur)
-                );
-
-                const getVal = (key) => {
-                    const v = dataVal[key];
-                    if (!v || v === "-") return "0";
-                    return Number(v).toLocaleString('id-ID');
-                };
+            listProvinsi.forEach((item, index) => {
+                // Ambil nilai dari object variables (key unik: lxkwts7rnj)
+                // Kita gunakan Object.values()[0] agar dinamis jika key berubah
+                const valObj = Object.values(item.variables)[0];
+                const nilai = valObj ? valObj.value : "0";
 
                 baris += `
                     <tr>
-                        <td class="font-bold">${w.label}</td>
-                        <td class="text-right">${getVal(findKey("178"))}</td>
-                        <td class="text-right">${getVal(findKey("179"))}</td>
-                        <td class="text-right">${getVal(findKey("180"))}</td>
-                        <td class="text-right">${getVal(findKey("181"))}</td>
+                        <td>${index + 1}</td>
+                        <td class="font-bold">${item.label}</td>
+                        <td class="text-right">${nilai}%</td>
                     </tr>
                 `;
             });
 
             body.innerHTML = baris;
         } else {
-            // Jika struktur JSON SIMDASI berbeda, tampilkan pesan informatif untuk memandu penyesuaian data
-            throw new Error("Struktur JSON dari API SIMDASI berbeda dari versi sebelumnya. Silakan periksa Console (F12) untuk melihat struktur barunya dan sesuaikan variabel mapping data pada script.");
+            throw new Error("Format data tidak dikenali atau data kosong.");
         }
 
     } catch (err) {
-        console.error(err);
-        body.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">
+        console.error("Detail Error:", err);
+        body.innerHTML = `<tr><td colspan="3" style="text-align:center; color:red;">
             <strong>Error:</strong><br>${err.message}
         </td></tr>`;
     }
