@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 // URL API BPS: URL endpoint API dari Badan Pusat Statistik untuk mengambil data fasilitas kesehatan.
-$url = "https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/3500/var/206/th/118/key/e34d50c3e2e4773ebe4c8162f7a76057";
+$url = "https://webapi.bps.go.id/v1/api/interoperabilitas/datasource/simdasi/id/25/tahun/2017/id_tabel/TEptbDV0QlRORVl6cjl0THhMbk02Zz09/wilayah/0000000/key/e34d50c3e2e4773ebe4c8162f7a76057";
 
 // Inisialisasi cURL: Membuat resource cURL untuk melakukan HTTP request ke API BPS.
 $ch = curl_init();

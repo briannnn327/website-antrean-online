@@ -127,7 +127,7 @@ $antrean_hari_ini = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT COUNT(*) a
         </div>
 
         <div class="card" style="margin-top: 20px;">
-            <h3><i class="fas fa-chart-line"></i> Data Fasilitas Kesehatan (BPS 2018)</h3>
+            <h3><i class="fas fa-chart-line"></i> Data Fasilitas Kesehatan (BPS 2017)</h3>
             <div class="table-wrap">
                 <table>
                     <thead>
@@ -182,47 +182,59 @@ document.querySelectorAll('.sidebar-menu li a').forEach(link => {
     });
 });
 
-// ✅ BPS API
+// ✅ BPS API (Diperbarui dengan Endpoint Baru)
 async function fetchBPS() {
     const body = document.getElementById('data-api-body');
     body.innerHTML = '<tr><td colspan="5" style="text-align:center;">Memproses data dari BPS...</td></tr>';
 
     try {
-        const response = await fetch("https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/3500/var/206/th/118/key/e34d50c3e2e4773ebe4c8162f7a76057");
+        // Link API BPS terbaru
+        const response = await fetch("https://webapi.bps.go.id/v1/api/interoperabilitas/datasource/simdasi/id/25/tahun/2017/id_tabel/TEptbDV0QlRORVl6cjl0THhMbk02Zz09/wilayah/0000000/key/e34d50c3e2e4773ebe4c8162f7a76057");
 
         if (!response.ok) throw new Error("API tidak merespon. Status: " + response.status);
 
-        const res      = await response.json();
-        const wilayah  = res.vervar;
-        const dataVal  = res.datacontent;
-        const allKeys  = Object.keys(dataVal);
+        const res = await response.json();
+        
+        // Log untuk mengecek struktur data baru di Console (Tekan F12 di browser)
+        console.log("Response API BPS:", res);
 
-        let baris = '';
+        // Pengecekan apakah response JSON menggunakan struktur lama atau baru
+        if (res.vervar && res.datacontent) {
+            // Jika formatnya masih sesuai dengan logika lama
+            const wilayah  = res.vervar;
+            const dataVal  = res.datacontent;
+            const allKeys  = Object.keys(dataVal);
 
-        wilayah.forEach(w => {
-            const idWil = String(w.val);
-            const findKey = (kodeTur) => allKeys.find(k =>
-                k.startsWith(idWil) && k.includes("206") && k.includes(kodeTur)
-            );
+            let baris = '';
 
-            const getVal = (key) => {
-                const v = dataVal[key];
-                if (!v || v === "-") return "0";
-                return Number(v).toLocaleString('id-ID');
-            };
+            wilayah.forEach(w => {
+                const idWil = String(w.val);
+                const findKey = (kodeTur) => allKeys.find(k =>
+                    k.startsWith(idWil) && k.includes("206") && k.includes(kodeTur)
+                );
 
-            baris += `
-                <tr>
-                    <td class="font-bold">${w.label}</td>
-                    <td class="text-right">${getVal(findKey("178"))}</td>
-                    <td class="text-right">${getVal(findKey("179"))}</td>
-                    <td class="text-right">${getVal(findKey("180"))}</td>
-                    <td class="text-right">${getVal(findKey("181"))}</td>
-                </tr>
-            `;
-        });
+                const getVal = (key) => {
+                    const v = dataVal[key];
+                    if (!v || v === "-") return "0";
+                    return Number(v).toLocaleString('id-ID');
+                };
 
-        body.innerHTML = baris;
+                baris += `
+                    <tr>
+                        <td class="font-bold">${w.label}</td>
+                        <td class="text-right">${getVal(findKey("178"))}</td>
+                        <td class="text-right">${getVal(findKey("179"))}</td>
+                        <td class="text-right">${getVal(findKey("180"))}</td>
+                        <td class="text-right">${getVal(findKey("181"))}</td>
+                    </tr>
+                `;
+            });
+
+            body.innerHTML = baris;
+        } else {
+            // Jika struktur JSON SIMDASI berbeda, tampilkan pesan informatif untuk memandu penyesuaian data
+            throw new Error("Struktur JSON dari API SIMDASI berbeda dari versi sebelumnya. Silakan periksa Console (F12) untuk melihat struktur barunya dan sesuaikan variabel mapping data pada script.");
+        }
 
     } catch (err) {
         console.error(err);
