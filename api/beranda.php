@@ -188,47 +188,41 @@ async function fetchBPS() {
     body.innerHTML = '<tr><td colspan="5" style="text-align:center;">Memproses data dari BPS...</td></tr>';
 
     try {
-        // ✅ Gunakan proxy PHP, bukan langsung ke BPS
-        const response = await fetch('kesehatan.php');
-        if (!response.ok) throw new Error("Proxy error: " + response.status);
+        const response = await fetch("https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/3500/var/206/th/118/key/e34d50c3e2e4773ebe4c8162f7a76057");
 
-        const res = await response.json();
+        if (!response.ok) throw new Error("API tidak merespon. Status: " + response.status);
 
-        if (res.error) throw new Error(res.error);
-
-        // ✅ Debug: lihat struktur key dulu
-        console.log("Contoh key datacontent:", Object.keys(res.datacontent).slice(0, 10));
-        console.log("Contoh wilayah:", res.vervar?.slice(0, 3));
-
-        const wilayah = res.vervar;
-        const dataVal = res.datacontent;
-        const allKeys = Object.keys(dataVal);
+        const res      = await response.json();
+        const wilayah  = res.vervar;
+        const dataVal  = res.datacontent;
+        const allKeys  = Object.keys(dataVal);
 
         let baris = '';
 
         wilayah.forEach(w => {
             const idWil = String(w.val);
+            const findKey = (kodeTur) => allKeys.find(k =>
+                k.startsWith(idWil) && k.includes("206") && k.includes(kodeTur)
+            );
 
-            // ✅ Cari key yang DIAWALI dengan idWil (tanpa require "206" di tengah)
-            const getVal = (kodeAkhir) => {
-                const key = allKeys.find(k => k.startsWith(idWil) && k.endsWith(kodeAkhir));
-                const v = key ? dataVal[key] : null;
-                if (!v || v === "-" || v === "0") return "0";
+            const getVal = (key) => {
+                const v = dataVal[key];
+                if (!v || v === "-") return "0";
                 return Number(v).toLocaleString('id-ID');
             };
 
             baris += `
                 <tr>
                     <td class="font-bold">${w.label}</td>
-                    <td class="text-right">${getVal("178")}</td>
-                    <td class="text-right">${getVal("179")}</td>
-                    <td class="text-right">${getVal("180")}</td>
-                    <td class="text-right">${getVal("181")}</td>
+                    <td class="text-right">${getVal(findKey("178"))}</td>
+                    <td class="text-right">${getVal(findKey("179"))}</td>
+                    <td class="text-right">${getVal(findKey("180"))}</td>
+                    <td class="text-right">${getVal(findKey("181"))}</td>
                 </tr>
             `;
         });
 
-        body.innerHTML = baris || '<tr><td colspan="5" style="text-align:center;">Tidak ada data</td></tr>';
+        body.innerHTML = baris;
 
     } catch (err) {
         console.error(err);
